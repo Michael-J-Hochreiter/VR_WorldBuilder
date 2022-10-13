@@ -5,6 +5,7 @@ using UnityEngine;
 public class StateMachine : MonoBehaviour
 {
 
+    [HideInInspector] public GameObject currentObject;
     public enum State
     {
         Idle,
