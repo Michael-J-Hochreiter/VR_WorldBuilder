@@ -1,7 +1,5 @@
 // AUTHOR: MICHAEL HOCHREITER
 
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,28 +17,102 @@ public class SelectionManager : MonoBehaviour
     public Transform controllerHead;
     public GameObject selectionUI;
 
+    private GameObject selectedBuildingBlock = null;
+
     public void OnEnable()
     {
         if (lTriggerPressed.action != null) lTriggerPressed.action.Enable();
-        if (lTriggerPressed.action != null) lTriggerPressed.action.performed += TriggerPressed;
+        if (lTriggerPressed.action != null) lTriggerPressed.action.performed += LTriggerPressed;
         if (lTriggerReleased.action != null) lTriggerReleased.action.Enable();
-        if (lTriggerReleased.action != null) lTriggerReleased.action.performed += TriggerReleased;
+        if (lTriggerReleased.action != null) lTriggerReleased.action.performed += LTriggerReleased;
 
         if (rTriggerPressed.action != null) rTriggerPressed.action.Enable();
-        if (rTriggerPressed.action != null) rTriggerPressed.action.performed += TriggerPressed;
+        if (rTriggerPressed.action != null) rTriggerPressed.action.performed += RTriggerPressed;
         if (rTriggerReleased.action != null) rTriggerReleased.action.Enable();
-        if (rTriggerReleased.action != null) rTriggerReleased.action.performed += TriggerReleased;
+        if (rTriggerReleased.action != null) rTriggerReleased.action.performed += RTriggerReleased;
+    }
+    
+    void LTriggerPressed(InputAction.CallbackContext trigger)
+    {
+        TriggerPressed("left");
+    }
+    void RTriggerPressed(InputAction.CallbackContext trigger)
+    {
+        TriggerPressed("right");
+    }
+    void LTriggerReleased(InputAction.CallbackContext trigger)
+    {
+        TriggerReleased("left");
+    }
+    void RTriggerReleased(InputAction.CallbackContext trigger)
+    {
+        TriggerReleased("right");
     }
 
-    void TriggerPressed(InputAction.CallbackContext trigger)
+    private void TriggerPressed(string hand)
     {
         Debug.Log("Trigger Pressed (L or R)");
 
-        //WENN stateMachine.state == State.idle, dann: -> raycast machen, der dann checkt ob ein objekt mit dem tag "editable" getroffen wurde. Wenn das passiert, dann wird das SelectionUI an der richtigen stelle gespawned. (Soll das SelectionUI seine rotation selber bestimmen? wäre wahrscheinlich cool). Sobald der trigger dann released wird, wird gechecked ob er eines der segmente vom ui hittet. Falls das passiert wird das ui despawned und in der state machine der state auf editing... gesetzt. außerdem wird in der statemachine das currentObject gesetzt. 
+        if (stateMachine.state == StateMachine.State.Idle)
+        {
+            RaycastHit hit;
+            Ray ray = new Ray(
+                hand == "left" ? lHand.position : rHand.position, 
+                hand == "left" ? lHand.forward : rHand.forward);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                if (hit.transform.CompareTag("BuildingBlock"))
+                {
+                    selectedBuildingBlock = hit.transform.gameObject;
+                    selectedBuildingBlock.GetComponent<BuildingBlock>().EnableSelectionUI();
+                }
+            }
+        }
     }
 
-    void TriggerReleased(InputAction.CallbackContext trigger)
+    private void TriggerReleased(string hand)
     {
         Debug.Log("Trigger Released (L or R)");
+
+        if (stateMachine.state == StateMachine.State.Idle)
+        {
+            RaycastHit hit;
+            Ray ray = new Ray(
+                hand == "left" ? lHand.position : rHand.position, 
+                hand == "left" ? lHand.forward : rHand.forward);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                switch (hit.transform.tag)
+                {
+                    case "rotate":
+                        stateMachine.state = StateMachine.State.EditingRotation;
+                        stateMachine.currentObject = selectedBuildingBlock;
+                        break;
+                    case "translate":
+                        stateMachine.state = StateMachine.State.EditingTranslation;
+                        stateMachine.currentObject = selectedBuildingBlock;
+                        break;
+                    case "scaleAll":
+                        stateMachine.state = StateMachine.State.EditingScaleAllAxis;
+                        stateMachine.currentObject = selectedBuildingBlock;
+                        break;
+                    case "scaleIndividual":
+                        stateMachine.state = StateMachine.State.EditingScaleIndividualAxis;
+                        stateMachine.currentObject = selectedBuildingBlock;
+                        break;
+                    default:
+                        selectedBuildingBlock = null;
+                        break;
+                }
+
+                // check if there is a buildingBlock selected (!= null), and the enable its selectionUI
+                if (selectedBuildingBlock)
+                {
+                    selectedBuildingBlock.GetComponent<BuildingBlock>().DisableSelectionUI();
+                }
+            }
+        }
     }
 }
