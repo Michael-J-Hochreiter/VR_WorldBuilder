@@ -51,7 +51,7 @@ public class SelectionManager : MonoBehaviour
 
     private void TriggerPressed(string hand)
     {
-        Debug.Log("Trigger Pressed (L or R)");
+        Debug.Log(hand + " trigger pressed");
 
         if (stateMachine.state == StateMachine.State.Idle)
         {
@@ -73,7 +73,7 @@ public class SelectionManager : MonoBehaviour
 
     private void TriggerReleased(string hand)
     {
-        Debug.Log("Trigger Released (L or R)");
+        Debug.Log(hand + " trigger released");
 
         if (stateMachine.state == StateMachine.State.Idle)
         {

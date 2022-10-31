@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - BuildingBlock
+  - Translate
+  - Rotate
+  - ScaleAll
+  - ScaleIndividual
   layers:
   - Default
   - TransparentFX
