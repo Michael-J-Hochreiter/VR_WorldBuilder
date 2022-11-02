@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine.InputSystem;
 
 public class SpawnBlocks : MonoBehaviour
 {
-    public StateMachine stateMachine;
+    private StateMachine stateMachine;
 
     public GameObject spawnPoint;
     public GameObject blockToSpawn;
@@ -14,7 +15,12 @@ public class SpawnBlocks : MonoBehaviour
     public InputActionProperty secondaryButtonRightHand;
     public InputActionProperty primaryButtonLeftHand;
     public InputActionProperty secondaryButtonLeftHand;
-    
+
+    void Awake()
+    {
+        stateMachine = GetComponent<StateMachine>();
+    }
+
     public void OnEnable()
     {
         if (primaryButtonRightHand.action != null) primaryButtonRightHand.action.Enable();
