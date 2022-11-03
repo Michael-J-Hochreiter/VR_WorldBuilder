@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - BuildingBlock
+  - LeftController
+  - RightController
+  - ModificationParent
+  - StateMachine
   layers:
   - Default
   - TransparentFX
