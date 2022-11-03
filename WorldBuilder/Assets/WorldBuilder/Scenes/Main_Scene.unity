@@ -317,6 +317,79 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentObject: {fileID: 0}
+  primaryPressed: 0
+  leftTriggerPressed: 0
+  rightTriggerPressed: 0
+  leftGrabPressed: 0
+  rightGrabPressed: 0
+  leftGrabReleased: 0
+  rightGrabReleased: 0
+  lGrabAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: L Grab
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: a484913b-e31c-4825-a2ed-cad2b62fc7c8
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: -1642956385172594752, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rGrabAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: R Grab
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: bb02a070-1455-4981-ba87-efdf479b32b5
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 1263083564332451219, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  primaryButtonRightHand:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Primary Button Right Hand
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: ad4b06e9-367a-4ca7-9993-276ebf2e3ff6
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: -4818613996800505333, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  secondaryButtonRightHand:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Secondary Button Right Hand
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 7e8eb7ca-ed44-4464-9c48-b2e06f065ede
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 6663304980881437779, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  primaryButtonLeftHand:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Primary Button Left Hand
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 9dc60560-a42b-4481-af5a-ed2583092b68
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: -1825725462877067697, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  secondaryButtonLeftHand:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Secondary Button Left Hand
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: 72fa079f-b6a5-44f9-96ec-344277c0051a
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 8691849059024462253, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   state: 0
 --- !u!4 &503401629
 Transform:
@@ -346,50 +419,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPoint: {fileID: 1521132472}
   blockToSpawn: {fileID: 609158808}
-  primaryButtonRightHand:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Primary Button Right Hand
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: b7cb42a4-04a3-4256-b282-e537e7c9675e
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-    m_Reference: {fileID: -4818613996800505333, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  secondaryButtonRightHand:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Secondary Button Right Hand
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: e9024e22-8331-4239-a658-4685cd9b56f7
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-    m_Reference: {fileID: 6663304980881437779, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  primaryButtonLeftHand:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Primary Button Left Hand
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: a6333e72-a5d4-4827-8dfa-6212a8f667d7
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-    m_Reference: {fileID: -1825725462877067697, guid: c348712bda248c246b8c49b3db54643f, type: 3}
-  secondaryButtonLeftHand:
-    m_UseReference: 1
-    m_Action:
-      m_Name: Secondary Button Left Hand
-      m_Type: 0
-      m_ExpectedControlType: 
-      m_Id: 6e451d14-9a6c-4f4f-a620-cc7d8e8367e9
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-    m_Reference: {fileID: 8691849059024462253, guid: c348712bda248c246b8c49b3db54643f, type: 3}
 --- !u!1 &541640910
 GameObject:
   m_ObjectHideFlags: 0
