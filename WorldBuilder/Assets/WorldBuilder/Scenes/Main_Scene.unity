@@ -318,6 +318,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentObject: {fileID: 0}
   primaryPressed: 0
+  primaryReleased: 0
   leftTriggerPressed: 0
   rightTriggerPressed: 0
   leftGrabPressed: 0
@@ -412,6 +413,50 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
     m_Reference: {fileID: 8691849059024462253, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  primaryButtonRightHandReleased:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Primary Button Right Hand Released
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: d1b2d9a9-b70c-4326-9991-1bbc8426a230
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: -7474953792042502121, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  secondaryButtonRightHandReleased:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Secondary Button Right Hand Released
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: c5b5a737-4f3a-4d61-9621-103deb0a3a65
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 6076730668159728465, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  primaryButtonLeftHandReleased:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Primary Button Left Hand Released
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: adb6efd2-b535-40c7-b3f4-056d62dd3b32
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 8070638398465203500, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  secondaryButtonLeftHandReleased:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Secondary Button Left Hand Released
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: e59fc06b-81d9-4e10-9cc7-0d995684d4ac
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 6076730668159728465, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   state: 0
 --- !u!4 &503401629
 Transform:

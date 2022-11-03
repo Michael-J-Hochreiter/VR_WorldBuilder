@@ -156,7 +156,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Primary Button",
+                    "name": "Primary Button Pressed",
                     "type": "Button",
                     "id": "b3d38f89-c534-413e-b40e-78a3280445ab",
                     "expectedControlType": "Button",
@@ -164,9 +164,25 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Secondary Button",
+                    "name": "Primary Button Released",
+                    "type": "Button",
+                    "id": "1548315e-3630-44ae-9511-b6756460c686",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Secondary Button Pressed",
                     "type": "Button",
                     "id": "23ba2a9d-8c09-4dcd-92bd-790906abe7f9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Secondary Button Released",
+                    "type": "Button",
+                    "id": "59139ef9-9d65-4363-b9c4-d2831c7b89aa",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -531,7 +547,7 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Primary Button",
+                    "action": "Primary Button Pressed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -542,7 +558,7 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Secondary Button",
+                    "action": "Secondary Button Pressed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -587,6 +603,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Grab Released",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f50d4690-a6b9-4b4a-8020-5ceb9fb4de35",
+                    "path": "<XRController>{LeftHand}/primaryButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary Button Released",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2cefcec4-f019-411b-87e6-07e5ee520baf",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary Button Released",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -701,7 +739,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Primary Button",
+                    "name": "Primary Button Pressed",
                     "type": "Button",
                     "id": "5749edd9-d277-4f17-add7-3ad23961e356",
                     "expectedControlType": "Button",
@@ -709,9 +747,25 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Secondary Button",
+                    "name": "Primary Button Released",
+                    "type": "Button",
+                    "id": "64cb3eec-e3c4-4196-bfb2-ad8f476a98c3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Secondary Button Pressed",
                     "type": "Button",
                     "id": "e4a84a90-a5b0-4cf8-9915-6121fc87635e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Secondary Button Released",
+                    "type": "Button",
+                    "id": "5b87b07b-ab97-4853-82a9-fe1bede82290",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -1065,7 +1119,7 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Primary Button",
+                    "action": "Primary Button Pressed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1076,7 +1130,7 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Secondary Button",
+                    "action": "Secondary Button Pressed",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1121,6 +1175,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Grab Released",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7accb972-59c2-456b-ac10-7385e47a2400",
+                    "path": "<XRController>{RightHand}/secondaryButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Secondary Button Released",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c336dff9-f52b-4dff-92ba-5f7175e96a70",
+                    "path": "<XRController>{RightHand}/primaryButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Primary Button Released",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
