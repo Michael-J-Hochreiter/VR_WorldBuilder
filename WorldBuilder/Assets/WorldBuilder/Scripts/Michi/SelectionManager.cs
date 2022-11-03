@@ -1,5 +1,6 @@
 // AUTHOR: MICHAEL HOCHREITER
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,13 +12,21 @@ public class SelectionManager : MonoBehaviour
     public InputActionProperty rTriggerPressed;
     public InputActionProperty rTriggerReleased;
 
-    public StateMachine stateMachine;
-    public Transform lHand;
-    public Transform rHand;
+    private StateMachine stateMachine;
+    private Transform lHand;
+    private Transform rHand;
     public Transform controllerHead;
     public GameObject selectionUI;
 
     private GameObject selectedBuildingBlock = null;
+
+
+    private void Awake()
+    {
+        stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
+        lHand = GameObject.FindWithTag("LeftController").transform;
+        rHand = GameObject.FindWithTag("RightController").transform;
+    }
 
     public void OnEnable()
     {
