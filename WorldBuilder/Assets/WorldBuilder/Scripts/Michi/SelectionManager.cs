@@ -23,9 +23,9 @@ public class SelectionManager : MonoBehaviour
 
     private void Awake()
     {
-        stateMachine = GameObject.FindWithTag("RightHand").GetComponent<StateMachine>();
-        lHand = GameObject.FindWithTag("LeftHand").transform;
-        rHand = GameObject.FindWithTag("RightHand").transform;
+        stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
+        lHand = GameObject.FindWithTag("LeftController").transform;
+        rHand = GameObject.FindWithTag("RightController").transform;
     }
 
     public void OnEnable()

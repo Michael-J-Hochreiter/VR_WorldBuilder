@@ -27,6 +27,8 @@ public class StateMachine : MonoBehaviour
     
     public InputActionProperty lGrabAction;
     public InputActionProperty rGrabAction;
+    public InputActionProperty lGrabReleaseAction;
+    public InputActionProperty rGrabReleaseAction;
     public InputActionProperty primaryButtonRightHand;
     public InputActionProperty secondaryButtonRightHand;
     public InputActionProperty primaryButtonLeftHand;
@@ -46,6 +48,10 @@ public class StateMachine : MonoBehaviour
         if (lGrabAction.action != null) lGrabAction.action.performed += lGrab;
         if (rGrabAction.action != null) rGrabAction.action.Enable();
         if (rGrabAction.action != null) rGrabAction.action.performed += rGrab;
+        if (lGrabReleaseAction.action != null) lGrabReleaseAction.action.Enable();
+        if (lGrabReleaseAction.action != null) lGrabReleaseAction.action.performed += lGrabRelease;
+        if (rGrabReleaseAction.action != null) rGrabReleaseAction.action.Enable();
+        if (rGrabReleaseAction.action != null) rGrabReleaseAction.action.performed += rGrabRelease;
         if (primaryButtonRightHand.action != null) primaryButtonRightHand.action.Enable();
         if (primaryButtonRightHand.action != null) primaryButtonRightHand.action.performed += buttonPressed;
         if (secondaryButtonRightHand.action != null) secondaryButtonRightHand.action.Enable();
@@ -62,6 +68,16 @@ public class StateMachine : MonoBehaviour
     
     private void rGrab(InputAction.CallbackContext grab){
         rightGrabPressed = true;
+    }
+    
+    private void rGrabRelease(InputAction.CallbackContext grab){
+        rightGrabPressed = false;
+        rightGrabReleased = true;
+    }
+    
+    private void lGrabRelease(InputAction.CallbackContext grab){
+        leftGrabPressed = false;
+        leftGrabReleased = true;
     }
 
     private void buttonPressed(InputAction.CallbackContext button)

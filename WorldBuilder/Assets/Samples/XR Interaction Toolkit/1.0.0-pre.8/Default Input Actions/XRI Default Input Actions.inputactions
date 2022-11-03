@@ -172,9 +172,33 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Grab",
+                    "name": "Grab Pressed",
                     "type": "Button",
                     "id": "05146c7f-5879-4621-a23b-8bb4ffce1c9e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Trigger Pressed",
+                    "type": "Button",
+                    "id": "3a8a5af0-3017-4210-8852-773f3802e609",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Trigger Released",
+                    "type": "Button",
+                    "id": "af4676cf-3a55-473a-9e9c-286889aa6e89",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Grab Released",
+                    "type": "Button",
+                    "id": "0ac154fb-a28a-4e26-86b9-b5ed80dcd574",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -529,7 +553,40 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Grab",
+                    "action": "Grab Pressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "240c8dbd-d37a-4dc9-a51e-1c5a6b397ad4",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trigger Pressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b2380e33-7761-41ed-9f84-a6cfaf9b3197",
+                    "path": "<XRController>{LeftHand}/triggerPressed",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trigger Released",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2bf7e50d-9251-4726-a3aa-227d08f0a0c0",
+                    "path": "<XRController>{LeftHand}/gripPressed",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grab Released",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -660,9 +717,33 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Grab",
+                    "name": "Grab Pressed",
                     "type": "Button",
                     "id": "ea9123e6-f82b-44d3-ac7f-1361d20fc9ff",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Trigger Pressed",
+                    "type": "Button",
+                    "id": "504ac3e2-d825-4f33-9a96-9cbe9c6bebea",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Trigger Released",
+                    "type": "Button",
+                    "id": "7e8f75a3-b725-419b-a83d-b087145f9aa4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Grab Released",
+                    "type": "Button",
+                    "id": "a75a4377-f535-4100-9081-00022055885e",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -1006,7 +1087,40 @@
                     "interactions": "Press",
                     "processors": "",
                     "groups": "",
-                    "action": "Grab",
+                    "action": "Grab Pressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "356f93b2-51a0-4273-93c5-fa79231d9a46",
+                    "path": "<XRController>{RightHand}/triggerPressed",
+                    "interactions": "Press",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trigger Pressed",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86ae1c51-59d8-46ba-aef7-bf285af9b25e",
+                    "path": "<XRController>{RightHand}/triggerButton",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Trigger Released",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "dba7e2a6-26bb-4cc7-8861-141eb3fe87c4",
+                    "path": "<XRController>{RightHand}/gripPressed",
+                    "interactions": "Press(behavior=1)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grab Released",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

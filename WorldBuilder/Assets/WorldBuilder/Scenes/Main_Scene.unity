@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 503401630}
   m_Layer: 0
   m_Name: StateMachine
-  m_TagString: Untagged
+  m_TagString: StateMachine
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -346,6 +346,28 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
     m_Reference: {fileID: 1263083564332451219, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  lGrabReleaseAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: L Grab Release
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: c2c2972a-072e-4405-bd9f-d86298d49d6f
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 6324493478899874974, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  rGrabReleaseAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: R Grab Release
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: ecb3d6bc-9368-4b5e-9ea7-58fbb9f0d7be
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+    m_Reference: {fileID: 2883378400148828176, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   primaryButtonRightHand:
     m_UseReference: 1
     m_Action:
@@ -434,7 +456,7 @@ GameObject:
   - component: {fileID: 541640912}
   m_Layer: 0
   m_Name: RightHand Controller
-  m_TagString: Untagged
+  m_TagString: RightController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -987,7 +1009,7 @@ GameObject:
   - component: {fileID: 872436610}
   m_Layer: 0
   m_Name: XR Rig
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1100,7 +1122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lTriggerPressed:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: L Trigger Pressed
       m_Type: 0
@@ -1109,9 +1131,9 @@ MonoBehaviour:
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: -8271201316147198989, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   lTriggerReleased:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: L Trigger Released
       m_Type: 0
@@ -1120,9 +1142,9 @@ MonoBehaviour:
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: 8087734287812635092, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   rTriggerPressed:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: R Trigger Pressed
       m_Type: 0
@@ -1131,9 +1153,9 @@ MonoBehaviour:
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
-    m_Reference: {fileID: 0}
+    m_Reference: {fileID: 8789772184922798812, guid: c348712bda248c246b8c49b3db54643f, type: 3}
   rTriggerReleased:
-    m_UseReference: 0
+    m_UseReference: 1
     m_Action:
       m_Name: R Trigger Released
       m_Type: 0
@@ -1142,9 +1164,9 @@ MonoBehaviour:
       m_Processors: 
       m_Interactions: 
       m_SingletonActionBindings: []
-    m_Reference: {fileID: 0}
-  controllerHead: {fileID: 0}
-  selectionUI: {fileID: 0}
+    m_Reference: {fileID: -382873062568207787, guid: c348712bda248c246b8c49b3db54643f, type: 3}
+  controllerHead: {fileID: 965232229}
+  selectionUI: {fileID: 5438126068621648868, guid: 62415b535836900488d97e24913af52e, type: 3}
 --- !u!1 &965232228
 GameObject:
   m_ObjectHideFlags: 0

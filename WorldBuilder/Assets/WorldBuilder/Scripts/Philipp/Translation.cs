@@ -13,8 +13,8 @@ public class translation : MonoBehaviour
     private void Awake()
     {
         zoomObject = GameObject.FindWithTag("ModificationParent");
-        leftHand = GameObject.FindWithTag("LeftHand");
-        rightHand = GameObject.FindWithTag("RightHand");
+        leftHand = GameObject.FindWithTag("LeftController");
+        rightHand = GameObject.FindWithTag("RightController");
         
         stateMachine = GameObject.FindWithTag("RightHand").GetComponent<StateMachine>();
 

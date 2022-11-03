@@ -8,17 +8,21 @@ public class SpawnBlocks : MonoBehaviour
 
     public GameObject spawnPoint;
     public GameObject blockToSpawn;
+    private GameObject modificationParent;
 
     void Awake()
     {
         stateMachine = GetComponent<StateMachine>();
+        modificationParent = GameObject.FindWithTag("ModificationParent");
     }
 
     private void Update()
     {
         if (stateMachine.state == StateMachine.State.Idle && stateMachine.primaryPressed)
         {
-            Instantiate(blockToSpawn, spawnPoint.transform.position, spawnPoint.transform.rotation);
+            var block = Instantiate(blockToSpawn, spawnPoint.transform.position, spawnPoint.transform.rotation);
+            block.transform.parent = modificationParent.transform;
+            stateMachine.primaryPressed = false;
         }
     }
     

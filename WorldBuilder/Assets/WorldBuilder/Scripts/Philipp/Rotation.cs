@@ -11,11 +11,13 @@ public class Rotation : MonoBehaviour
 
     private StateMachine stateMachine;
 
+    private bool initialize = true;
+
     private void Awake()
     {
         zoomObject = GameObject.FindWithTag("ModificationParent");
-        leftHand = GameObject.FindWithTag("LeftHand");
-        rightHand = GameObject.FindWithTag("RightHand");
+        leftHand = GameObject.FindWithTag("LeftController");
+        rightHand = GameObject.FindWithTag("RightController");
         
         stateMachine = GameObject.FindWithTag("RightHand").GetComponent<StateMachine>();
     }
@@ -26,6 +28,22 @@ public class Rotation : MonoBehaviour
         if (stateMachine.state == StateMachine.State.EditingRotation)
         {
             //Handle rotation
+            
+            if (stateMachine.leftGrabPressed && stateMachine.rightGrabPressed)
+            {
+                calculate();
+                //changeSliderValue();
+            }
+            else if (initialize == false)
+            {
+                initialize = true;
+            }
+            
         }
+    }
+
+    private void calculate()
+    {
+        throw new NotImplementedException();
     }
 }
