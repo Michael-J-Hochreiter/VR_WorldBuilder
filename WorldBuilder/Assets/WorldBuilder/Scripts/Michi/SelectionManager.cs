@@ -18,7 +18,7 @@ public class SelectionManager : MonoBehaviour
     public Transform controllerHead;
     public GameObject selectionUI;
 
-    private GameObject selectedBuildingBlock = null;
+    [HideInInspector] public GameObject selectedBuildingBlock = null;
 
 
     private void Awake()
@@ -82,10 +82,11 @@ public class SelectionManager : MonoBehaviour
 
     private void TriggerReleased(string hand)
     {
-        Debug.Log("Trigger Released (L or R)");
+        Debug.Log("Trigger Released " + hand);
 
         if (stateMachine.state == StateMachine.State.Idle)
         {
+            print("relased in idle mode");
             RaycastHit hit;
             Ray ray = new Ray(
                 hand == "left" ? lHand.position : rHand.position, 
@@ -112,16 +113,12 @@ public class SelectionManager : MonoBehaviour
                         stateMachine.currentObject = selectedBuildingBlock;
                         break;
                     default:
-                        selectedBuildingBlock = null;
                         break;
                 }
-
-                // check if there is a buildingBlock selected (!= null), and the enable its selectionUI
-                if (selectedBuildingBlock)
-                {
-                    selectedBuildingBlock.GetComponent<BuildingBlock>().DisableSelectionUI();
-                }
             }
+            
+            selectedBuildingBlock.GetComponent<BuildingBlock>().DisableSelectionUI();
+            selectedBuildingBlock = null;
         }
     }
 }
