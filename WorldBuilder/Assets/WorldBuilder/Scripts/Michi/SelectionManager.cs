@@ -1,5 +1,6 @@
 // AUTHOR: MICHAEL HOCHREITER
 
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,13 +12,21 @@ public class SelectionManager : MonoBehaviour
     public InputActionProperty rTriggerPressed;
     public InputActionProperty rTriggerReleased;
 
-    public StateMachine stateMachine;
-    public Transform lHand;
-    public Transform rHand;
+    private StateMachine stateMachine;
+    private Transform lHand;
+    private Transform rHand;
     public Transform controllerHead;
     public GameObject selectionUI;
 
-    private GameObject selectedBuildingBlock = null;
+    [HideInInspector] public GameObject selectedBuildingBlock = null;
+
+
+    private void Awake()
+    {
+        stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
+        lHand = GameObject.FindWithTag("LeftController").transform;
+        rHand = GameObject.FindWithTag("RightController").transform;
+    }
 
     public void OnEnable()
     {
@@ -75,8 +84,10 @@ public class SelectionManager : MonoBehaviour
     {
         Debug.Log(hand + " trigger released");
 
+
         if (stateMachine.state == StateMachine.State.Idle)
         {
+            print("relased in idle mode");
             RaycastHit hit;
             Ray ray = new Ray(
                 hand == "left" ? lHand.position : rHand.position, 
@@ -103,7 +114,6 @@ public class SelectionManager : MonoBehaviour
                         stateMachine.currentObject = selectedBuildingBlock;
                         break;
                     default:
-                        selectedBuildingBlock = null;
                         break;
                 }
 
@@ -114,6 +124,9 @@ public class SelectionManager : MonoBehaviour
                     // MOVE BLOCK INTO TRANSFORMATION PARENT
                 }
             }
+            
+            selectedBuildingBlock.GetComponent<BuildingBlock>().DisableSelectionUI();
+            selectedBuildingBlock = null;
         }
     }
 }
