@@ -14,12 +14,13 @@ public class NotifyOnSelection : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Segment Highlighted");
+        Debug.Log("Segment Trigger Enter");
         selectionUI.HighlightUISegment(segment);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        selectionUI.RemoveUIHighlight();
+        Debug.Log("Segment Trigger Exit");
+        selectionUI.RemoveUISegmentHighlight();
     }
 }

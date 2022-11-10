@@ -111,6 +111,7 @@ public class SelectionManager : MonoBehaviour
                 if (selectedBuildingBlock)
                 {
                     selectedBuildingBlock.GetComponent<BuildingBlock>().DisableSelectionUI();
+                    // MOVE BLOCK INTO TRANSFORMATION PARENT
                 }
             }
         }

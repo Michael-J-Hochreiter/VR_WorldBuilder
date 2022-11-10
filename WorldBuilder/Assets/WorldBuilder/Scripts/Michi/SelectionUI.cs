@@ -43,7 +43,7 @@ public class SelectionUI : MonoBehaviour
 
     public void HighlightUISegment(Segment segment)
     {
-        RemoveUIHighlight();
+        RemoveUISegmentHighlight();
         
         switch (segment)
         {
@@ -63,7 +63,7 @@ public class SelectionUI : MonoBehaviour
         }
     }
     
-    public void RemoveUIHighlight()
+    public void RemoveUISegmentHighlight()
     {
         foreach (CanvasGroup UISegment in UISegments)
         {
