@@ -1,3 +1,5 @@
+//@Author Philipp Thayer
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -79,10 +81,12 @@ public class StateMachine : MonoBehaviour
     
     private void lGrab(InputAction.CallbackContext grab){
         leftGrabPressed = true;
+        leftGrabReleased = false;
     }
     
     private void rGrab(InputAction.CallbackContext grab){
         rightGrabPressed = true;
+        rightGrabReleased = false;
     }
     
     private void rGrabRelease(InputAction.CallbackContext grab){

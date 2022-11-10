@@ -1,3 +1,5 @@
+//@Author Philipp Thayer
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +18,7 @@ public class ScalingIndividualAxis : MonoBehaviour
         leftHand = GameObject.FindWithTag("LeftController");
         rightHand = GameObject.FindWithTag("RightController");
         
-        stateMachine = GameObject.FindWithTag("RightHand").GetComponent<StateMachine>();
+        stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
     }
 
     // Update is called once per frame
