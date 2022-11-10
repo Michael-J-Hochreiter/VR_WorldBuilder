@@ -1,3 +1,5 @@
+//@Author Philipp Thayer
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +20,7 @@ public class SpawnBlocks : MonoBehaviour
 
     private void Update()
     {
+        //stateMachine.state == StateMachine.State.Idle &&
         if (stateMachine.state == StateMachine.State.Idle && stateMachine.primaryPressed)
         {
             var block = Instantiate(blockToSpawn, spawnPoint.transform.position, spawnPoint.transform.rotation);

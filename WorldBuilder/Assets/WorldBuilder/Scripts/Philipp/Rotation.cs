@@ -1,3 +1,5 @@
+//@Author Philipp Thayer
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,7 +29,7 @@ public class Rotation : MonoBehaviour
         leftHandPosition = GameObject.FindWithTag("LeftController").transform.position;
         rightHandPosition = GameObject.FindWithTag("RightController").transform.position;
         
-        stateMachine = GameObject.FindWithTag("RightHand").GetComponent<StateMachine>();
+        stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
     }
 
     // Update is called once per frame
