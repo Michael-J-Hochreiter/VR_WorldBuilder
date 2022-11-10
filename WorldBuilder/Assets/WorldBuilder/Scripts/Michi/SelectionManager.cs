@@ -1,6 +1,7 @@
 // AUTHOR: MICHAEL HOCHREITER
 
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,6 +16,9 @@ public class SelectionManager : MonoBehaviour
     private StateMachine stateMachine;
     private Transform lHand;
     private Transform rHand;
+    private bool doRaycast = false;
+    private String currentHand = "";
+    
     public Transform controllerHead;
     public GameObject selectionUI;
 
@@ -61,6 +65,9 @@ public class SelectionManager : MonoBehaviour
     private void TriggerPressed(string hand)
     {
         Debug.Log(hand + " trigger pressed");
+        doRaycast = true;
+        currentHand = hand;
+        
 
         if (stateMachine.state == StateMachine.State.Idle)
         {
@@ -83,8 +90,9 @@ public class SelectionManager : MonoBehaviour
     private void TriggerReleased(string hand)
     {
         Debug.Log(hand + " trigger released");
-
-
+        doRaycast = false;
+        currentHand = "";
+        
         if (stateMachine.state == StateMachine.State.Idle)
         {
             print("relased in idle mode");
@@ -127,6 +135,20 @@ public class SelectionManager : MonoBehaviour
             
             selectedBuildingBlock.GetComponent<BuildingBlock>().DisableSelectionUI();
             selectedBuildingBlock = null;
+        }
+    }
+
+    private void Update()
+    {
+        if (doRaycast)
+        {
+            Ray ray = new Ray(
+                currentHand == "left" ? lHand.position : rHand.position, 
+                currentHand == "left" ? lHand.forward : rHand.forward);
+            
+            RaycastHit hit;
+            Physics.Raycast(ray, out hit, Mathf.Infinity,0, QueryTriggerInteraction.UseGlobal);
+
         }
     }
 }

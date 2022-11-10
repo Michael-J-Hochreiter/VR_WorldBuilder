@@ -12,7 +12,7 @@ public class SelectionUI : MonoBehaviour
 
     private Transform player;
     private Transform UI;
-    private List<CanvasGroup> UISegments;
+    private List<CanvasGroup> UISegments = new List<CanvasGroup>();
 
     public enum Segment
     {
@@ -26,9 +26,10 @@ public class SelectionUI : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         UI = transform.Find("UI");
-        foreach (CanvasGroup UISegment in UI)
+
+        for (int i = 0; i < UI.transform.childCount; i++)
         {
-            UISegments.Add(UISegment);           
+            UISegments.Add(UI.GetChild(i).GetComponent<CanvasGroup>());
         }
     }
     
@@ -44,16 +45,16 @@ public class SelectionUI : MonoBehaviour
     public void HighlightUISegment(Segment segment)
     {
         RemoveUISegmentHighlight();
-        
+
         switch (segment)
         {
             case Segment.Rotate:
                 UI.Find("UISegment_rotate").GetComponent<CanvasGroup>().alpha = alphaSelectedSegment;
+                print(UI.Find("UISegment_rotate").GetComponent<CanvasGroup>());
                 break;
             case Segment.Translate:
                 UI.Find("UISegment_translate").GetComponent<CanvasGroup>().alpha = alphaSelectedSegment;
                 break;
-            
             case Segment.ScaleAll:
                 UI.Find("UISegment_scaleAll").GetComponent<CanvasGroup>().alpha = alphaSelectedSegment;
                 break;

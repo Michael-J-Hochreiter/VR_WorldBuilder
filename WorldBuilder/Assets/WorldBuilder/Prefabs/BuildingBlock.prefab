@@ -109,5 +109,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cca4bb31b809c0459b4de70d7c6d39d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectionUIPrefab: {fileID: 5438126068621648868, guid: 62415b535836900488d97e24913af52e, type: 3}
+  selectionUIPrefab: {fileID: 9125736803240558329, guid: 62415b535836900488d97e24913af52e, type: 3}
   selectionUI: {fileID: 0}
