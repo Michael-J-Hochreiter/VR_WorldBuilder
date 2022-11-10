@@ -9,7 +9,10 @@ TagManager:
   - RightController
   - ModificationParent
   - StateMachine
-
+  - rotate
+  - translate
+  - scaleAll
+  - scaleIndividual
   layers:
   - Default
   - TransparentFX
