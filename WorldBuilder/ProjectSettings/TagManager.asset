@@ -9,6 +9,7 @@ TagManager:
   - RightController
   - ModificationParent
   - StateMachine
+
   layers:
   - Default
   - TransparentFX
