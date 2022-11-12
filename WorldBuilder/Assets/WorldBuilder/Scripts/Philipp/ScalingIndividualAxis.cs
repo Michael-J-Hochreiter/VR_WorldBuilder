@@ -41,7 +41,7 @@ public class ScalingIndividualAxis : MonoBehaviour
     private bool initializeAxis = true;
     
     private List<Vector3> objectScales = new List<Vector3>();
-
+    [SerializeField] private float scaleFactor = 1.3f;
 
     private void Awake()
     {
@@ -76,7 +76,7 @@ public class ScalingIndividualAxis : MonoBehaviour
             //Happens every time the user releases the grab buttons
             initialize = true;
             initializeAxis = true;
-            resetParentScale();
+            //resetParentScale();
         }
     }
 
@@ -94,11 +94,11 @@ public class ScalingIndividualAxis : MonoBehaviour
         xDistanceChange = xCurrentDistance - xPreviousDistance;
         yDistanceChange = yCurrentDistance - yPreviousDistance;
         zDistanceChange = zCurrentDistance - zPreviousDistance;
-        
+
         //calculating total scale change on each axis to later determine the axis the user wants to scale
         xTotalScaleChange += xDistanceChange;
         yTotalScaleChange += yDistanceChange;
-        zTotalScaleChange += zTotalScaleChange;
+        zTotalScaleChange += zDistanceChange;
     }
 
     private void initialization()
@@ -119,11 +119,11 @@ public class ScalingIndividualAxis : MonoBehaviour
 
     private void determineAxis()
     {
-        if (xTotalScaleChange >= yTotalScaleChange && xTotalScaleChange >= zTotalScaleChange)
+        if (Math.Abs(xTotalScaleChange) >= Math.Abs(yTotalScaleChange) && Math.Abs(xTotalScaleChange) >= Math.Abs(zTotalScaleChange))
         {
             currentAxis = "x";
         }
-        else if (yTotalScaleChange >= xTotalScaleChange && yTotalScaleChange >= zTotalScaleChange)
+        else if (Math.Abs(yTotalScaleChange) >= Math.Abs(xTotalScaleChange) && Math.Abs(yTotalScaleChange) >= Math.Abs(zTotalScaleChange))
         {
             currentAxis = "y";
         }
@@ -131,7 +131,6 @@ public class ScalingIndividualAxis : MonoBehaviour
         {
             currentAxis = "z";
         }
-
         if (initializeAxis)
         {
             previousAxis = currentAxis;
@@ -147,28 +146,18 @@ public class ScalingIndividualAxis : MonoBehaviour
             {
                 case "x":
                     scaleChange = new Vector3(xDistanceChange, 0, 0);
-
                     //setting new scale with calculated values if max/min scale isn't reached yet
-                    if (xTotalScaleChange >= 1 / maxScale && xTotalScaleChange <= maxScale)
-                    {
-                        zoomObject.transform.localScale += scaleChange * 0.7f;
-                    }
+                    zoomObject.transform.localScale += scaleChange * scaleFactor;
                     break;
                 case "y":
                     scaleChange = new Vector3(0, yDistanceChange, 0);
                     //setting new scale with calculated values if max/min scale isn't reached yet
-                    if (yTotalScaleChange >= 1 / maxScale && yTotalScaleChange <= maxScale)
-                    {
-                        zoomObject.transform.localScale += scaleChange * 0.7f;
-                    }
+                    zoomObject.transform.localScale += scaleChange * scaleFactor;
                     break;
                 case "z":
                     scaleChange = new Vector3(0, 0, zDistanceChange);
                     //setting new scale with calculated values if max/min scale isn't reached yet
-                    if (zTotalScaleChange >= 1 / maxScale && zTotalScaleChange <= maxScale)
-                    {
-                        zoomObject.transform.localScale += scaleChange * 0.7f;
-                    }
+                    zoomObject.transform.localScale += scaleChange * scaleFactor;
                     break;
             }
         }
@@ -176,11 +165,11 @@ public class ScalingIndividualAxis : MonoBehaviour
         {
             zoomObject.transform.localScale = initialScale;
         }
-
         //resetting Vector
         xPreviousDistance = xCurrentDistance;
         yPreviousDistance = yCurrentDistance;
         zPreviousDistance = zCurrentDistance;
+        previousAxis = currentAxis;
     }
 
     private void resetParentScale()

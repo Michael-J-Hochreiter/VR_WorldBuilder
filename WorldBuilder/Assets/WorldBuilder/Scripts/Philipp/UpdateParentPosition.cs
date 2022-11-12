@@ -26,7 +26,6 @@ public class UpdateParentPosition : MonoBehaviour
         if (modificationParent.transform.childCount != 0 && stateMachine.rightGrabPressed &&
             stateMachine.leftGrabPressed && update)
         {
-            print("updating position");
             updatePosition();
             update = false;
         }else if (stateMachine.rightGrabReleased && stateMachine.leftGrabReleased && !update)
