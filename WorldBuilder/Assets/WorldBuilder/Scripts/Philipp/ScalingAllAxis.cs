@@ -33,7 +33,7 @@ public class ScalingAllAxis : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stateMachine.state == StateMachine.State.Idle && stateMachine.leftGrabPressed && stateMachine.rightGrabPressed && zoomObject.transform.childCount > 0)
+        if (stateMachine.state == StateMachine.State.EditingScaleAllAxis && stateMachine.leftGrabPressed && stateMachine.rightGrabPressed && zoomObject.transform.childCount > 0)
         {
             //Handle scaling on all axis
             calculateScale();
