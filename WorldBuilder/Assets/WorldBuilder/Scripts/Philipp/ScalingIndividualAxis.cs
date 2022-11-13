@@ -58,7 +58,7 @@ public class ScalingIndividualAxis : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stateMachine.state == StateMachine.State.Idle && stateMachine.leftGrabPressed && stateMachine.rightGrabPressed && zoomObject.transform.childCount > 0)
+        if (stateMachine.state == StateMachine.State.EditingScaleIndividualAxis && stateMachine.leftGrabPressed && stateMachine.rightGrabPressed && zoomObject.transform.childCount > 0)
         {
             rightHandPos = rightHand.transform.position;
             leftHandPos = leftHand.transform.position;

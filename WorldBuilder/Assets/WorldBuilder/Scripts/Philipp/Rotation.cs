@@ -14,14 +14,18 @@ public class Rotation : MonoBehaviour
     private StateMachine stateMachine;
 
     private bool initialize = true;
-    
-    private Vector3 previousMiddle;
-    private Vector3 currentMiddle;
     private float angleChangeX;
     private float angleChangeY;
     private float angleChangeZ;
     private Vector3 previousRotationVector;
     private Vector3 currentRotationVector;
+    
+    private Vector2 previousRotationVectorX;
+    private Vector2 currentRotationVectorX;
+    private Vector2 previousRotationVectorY;
+    private Vector2 currentRotationVectorY;
+    private Vector2 previousRotationVectorZ;
+    private Vector2 currentRotationVectorZ;
 
     private void Awake()
     {
@@ -35,14 +39,14 @@ public class Rotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stateMachine.state == StateMachine.State.EditingRotation)
+        if (stateMachine.state == StateMachine.State.Idle)
         {
+            leftHandPosition = GameObject.FindWithTag("LeftController").transform.position;
+            rightHandPosition = GameObject.FindWithTag("RightController").transform.position;
             //Handle rotation
-            
-            if (stateMachine.leftGrabPressed && stateMachine.rightGrabPressed)
+            if (stateMachine.leftGrabPressed && stateMachine.rightGrabPressed && zoomObject.transform.childCount > 0)
             {
                 calculate();
-                //changeSliderValue();
             }
             else if (initialize == false)
             {
@@ -55,23 +59,32 @@ public class Rotation : MonoBehaviour
     private void calculate()
     {
         if (initialize) {
-            previousRotationVector = rightHandPosition  - leftHandPosition;
-            
+            currentRotationVectorX = new Vector2(rightHandPosition.y, rightHandPosition.z)  - new Vector2(leftHandPosition.y, leftHandPosition.z);
+            currentRotationVectorY = new Vector2(rightHandPosition.x, rightHandPosition.z)  - new Vector2(leftHandPosition.x, leftHandPosition.z);
+            currentRotationVectorZ = new Vector2(rightHandPosition.x, rightHandPosition.y)  - new Vector2(leftHandPosition.x, leftHandPosition.y);
+
             initialize = false;
         }
         
         //setting current values needed for calculation
-        currentRotationVector = rightHandPosition  - leftHandPosition;
+        currentRotationVectorX = new Vector2(rightHandPosition.y, rightHandPosition.z)  - new Vector2(leftHandPosition.y, leftHandPosition.z);
+        currentRotationVectorY = new Vector2(rightHandPosition.x, rightHandPosition.z)  - new Vector2(leftHandPosition.x, leftHandPosition.z);
+        currentRotationVectorZ = new Vector2(rightHandPosition.x, rightHandPosition.y)  - new Vector2(leftHandPosition.x, leftHandPosition.y);
         
         //calculating change to initial vectors and total value changed
-        angleChangeY = Vector3.SignedAngle(previousRotationVector, currentRotationVector, Vector3.forward);
-        angleChangeY = Vector3.SignedAngle(previousRotationVector, currentRotationVector, Vector3.up);
-        angleChangeZ = Vector3.SignedAngle(previousRotationVector, currentRotationVector, Vector3.left);
-
-
+        angleChangeX = Vector2.SignedAngle(previousRotationVectorX, currentRotationVectorX);
+        angleChangeY = Vector2.SignedAngle(previousRotationVectorY, currentRotationVectorY);
+        angleChangeZ = Vector2.SignedAngle(previousRotationVectorZ, currentRotationVectorZ);
+        print("y " + angleChangeY);
+        print("x " + angleChangeX);
+        print("z " + angleChangeZ);
+        
         //setting new rotation with calculated values if max/min scale isn't reached yet
         zoomObject.transform.Rotate(new Vector3(-angleChangeX, -angleChangeY, -angleChangeZ) * 1.2f);
         
         //Resetting previous Vectors
-        previousRotationVector = currentRotationVector;    }
+        previousRotationVectorX = currentRotationVectorX;
+        previousRotationVectorY = currentRotationVectorY;
+        previousRotationVectorZ = currentRotationVectorZ;
+    }
 }
