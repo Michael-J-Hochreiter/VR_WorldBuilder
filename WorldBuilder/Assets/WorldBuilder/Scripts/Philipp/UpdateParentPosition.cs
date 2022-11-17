@@ -12,7 +12,6 @@ public class UpdateParentPosition : MonoBehaviour
 
     private bool update = true;
 
-    private List<Vector3> objectPositions = new List<Vector3>();
     // Start is called before the first frame update
     void Awake()
     {
@@ -21,33 +20,39 @@ public class UpdateParentPosition : MonoBehaviour
     }
 
     // Update is called once per frame
+    /*
     void Update()
     {
         if (modificationParent.transform.childCount != 0 && stateMachine.rightGrabPressed &&
             stateMachine.leftGrabPressed && update)
         {
-            updatePosition();
+            updateParent();
             update = false;
         }else if (stateMachine.rightGrabReleased && stateMachine.leftGrabReleased && !update)
         {
             update = true;
         }
     }
+    */
 
-    private void updatePosition()
+    public void updateParent()
     {
+        List<GameObject> objects = new List<GameObject>();
         Vector3 newPosition = Vector3.zero;
         foreach (Transform child in modificationParent.transform)
         {
+            child.transform.parent = null;
             newPosition += child.position;
-            objectPositions.Add(child.position);
+            objects.Add(child.gameObject);
         }
 
         newPosition /= modificationParent.transform.childCount;
         modificationParent.transform.position = newPosition;
-        for (int i = 0; i < modificationParent.transform.childCount; i++)
+        modificationParent.transform.rotation = Quaternion.identity;
+        modificationParent.transform.localScale = Vector3.one;
+        foreach (GameObject block in objects)
         {
-            modificationParent.transform.GetChild(i).transform.position = objectPositions[i];
+            block.transform.parent = modificationParent.transform;
         }
     }
 }
