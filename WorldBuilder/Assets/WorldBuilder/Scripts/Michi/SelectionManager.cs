@@ -137,7 +137,7 @@ public class SelectionManager : MonoBehaviour
             selectedBuildingBlock = null;
         }
     }
-
+    
     private void Update()
     {
         if (doRaycast)
@@ -147,8 +147,10 @@ public class SelectionManager : MonoBehaviour
                 currentHand == "left" ? lHand.forward : rHand.forward);
             
             RaycastHit hit;
-            Physics.Raycast(ray, out hit, Mathf.Infinity,0, QueryTriggerInteraction.UseGlobal);
-
+            if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                print("raycasted. is trigger? -> " + hit.collider.isTrigger);
+            }
         }
     }
 }
