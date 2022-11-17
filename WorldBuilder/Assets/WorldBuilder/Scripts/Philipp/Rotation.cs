@@ -39,7 +39,7 @@ public class Rotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stateMachine.state == StateMachine.State.Idle)
+        if (stateMachine.state == StateMachine.State.EditingRotation)
         {
             leftHandPosition = GameObject.FindWithTag("LeftController").transform.position;
             rightHandPosition = GameObject.FindWithTag("RightController").transform.position;
@@ -59,9 +59,9 @@ public class Rotation : MonoBehaviour
     private void calculate()
     {
         if (initialize) {
-            currentRotationVectorX = new Vector2(rightHandPosition.y, rightHandPosition.z)  - new Vector2(leftHandPosition.y, leftHandPosition.z);
-            currentRotationVectorY = new Vector2(rightHandPosition.x, rightHandPosition.z)  - new Vector2(leftHandPosition.x, leftHandPosition.z);
-            currentRotationVectorZ = new Vector2(rightHandPosition.x, rightHandPosition.y)  - new Vector2(leftHandPosition.x, leftHandPosition.y);
+            previousRotationVectorX = new Vector2(rightHandPosition.y, rightHandPosition.z)  - new Vector2(leftHandPosition.y, leftHandPosition.z);
+            previousRotationVectorY = new Vector2(rightHandPosition.x, rightHandPosition.z)  - new Vector2(leftHandPosition.x, leftHandPosition.z);
+            previousRotationVectorZ = new Vector2(rightHandPosition.x, rightHandPosition.y)  - new Vector2(leftHandPosition.x, leftHandPosition.y);
 
             initialize = false;
         }
@@ -80,7 +80,7 @@ public class Rotation : MonoBehaviour
         print("z " + angleChangeZ);
         
         //setting new rotation with calculated values if max/min scale isn't reached yet
-        zoomObject.transform.Rotate(new Vector3(-angleChangeX, -angleChangeY, -angleChangeZ) * 1.2f);
+        zoomObject.transform.Rotate(new Vector3(-angleChangeX, -angleChangeY, 0) * 0.7f);
         
         //Resetting previous Vectors
         previousRotationVectorX = currentRotationVectorX;
