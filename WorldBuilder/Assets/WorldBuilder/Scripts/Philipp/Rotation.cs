@@ -41,7 +41,6 @@ public class Rotation : MonoBehaviour
     private Vector2 currentRotationVectorY;
     private Vector2 previousRotationVectorZ;
     private Vector2 currentRotationVectorZ;
-    private UpdateParentPosition updateParent;
 
     private void Awake()
     {
@@ -50,13 +49,12 @@ public class Rotation : MonoBehaviour
         rightHandPosition = GameObject.FindWithTag("RightController").transform.position;
         
         stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
-        updateParent = GetComponent<UpdateParentPosition>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (stateMachine.state == StateMachine.State.Idle)
+        if (stateMachine.state == StateMachine.State.EditingRotation)
         {
             leftHandPosition = GameObject.FindWithTag("LeftController").transform.position;
             rightHandPosition = GameObject.FindWithTag("RightController").transform.position;
@@ -65,7 +63,6 @@ public class Rotation : MonoBehaviour
             {
                 if (initialize)
                 {
-                    updateParent.updateParent();
                     initialization();
                 }
                 updateVectors();
@@ -146,14 +143,14 @@ public class Rotation : MonoBehaviour
         //setting new rotation with calculated values
         if (currentAxis == previousAxis)
         {
-            print(currentAxis + "axis");
+            //checks on which axis rotation should take place an applies it
             switch (currentAxis)
             {
                 case "x":
                     zoomObject.transform.Rotate(new Vector3(angleChangeX, 0, 0) * rotationForce);
                     break;
                 case "y":
-                    zoomObject.transform.Rotate(new Vector3(0, angleChangeY, 0) * rotationForce);
+                    zoomObject.transform.Rotate(new Vector3(0, -angleChangeY, 0) * rotationForce);
                     break;
                 case "z":
                     zoomObject.transform.Rotate(new Vector3(0, 0, angleChangeZ) * rotationForce);

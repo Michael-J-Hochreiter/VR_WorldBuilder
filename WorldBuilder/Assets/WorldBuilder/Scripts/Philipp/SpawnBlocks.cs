@@ -20,10 +20,9 @@ public class SpawnBlocks : MonoBehaviour
 
     private void Update()
     {
-        //stateMachine.state == StateMachine.State.Idle &&
         if (stateMachine.state == StateMachine.State.Idle && stateMachine.primaryPressed)
         {
-            var block = Instantiate(blockToSpawn, spawnPoint.transform.position, spawnPoint.transform.rotation);
+            var block = Instantiate(blockToSpawn, spawnPoint.transform.position, Quaternion.identity);
             block.transform.parent = modificationParent.transform;
             stateMachine.primaryPressed = false;
         }
