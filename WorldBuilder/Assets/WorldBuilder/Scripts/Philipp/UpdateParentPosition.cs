@@ -12,7 +12,6 @@ public class UpdateParentPosition : MonoBehaviour
 
     private bool update = true;
 
-    private List<Vector3> objectPositions = new List<Vector3>();
     // Start is called before the first frame update
     void Awake()
     {
@@ -21,12 +20,13 @@ public class UpdateParentPosition : MonoBehaviour
     }
 
     // Update is called once per frame
+    
     void Update()
     {
         if (modificationParent.transform.childCount != 0 && stateMachine.rightGrabPressed &&
             stateMachine.leftGrabPressed && update)
         {
-            updatePosition();
+            updateParent();
             update = false;
         }else if (stateMachine.rightGrabReleased && stateMachine.leftGrabReleased && !update)
         {
@@ -34,20 +34,44 @@ public class UpdateParentPosition : MonoBehaviour
         }
     }
 
-    private void updatePosition()
+
+    public void updateParent()
     {
+        List<GameObject> objects = new List<GameObject>();
+        List<Vector3> objectPosition = new List<Vector3>();
+        List<Vector3> objectScale = new List<Vector3>();
+        List<Quaternion> objectRotation = new List<Quaternion>();
         Vector3 newPosition = Vector3.zero;
+        
         foreach (Transform child in modificationParent.transform)
         {
             newPosition += child.position;
-            objectPositions.Add(child.position);
+            objects.Add(child.gameObject);
+            objectPosition.Add(child.position);
+            objectRotation.Add(child.rotation);
+            objectScale.Add(child.localScale);
+        }
+        foreach (GameObject child in objects)
+        {
+            child.transform.parent = null;
         }
 
-        newPosition /= modificationParent.transform.childCount;
+        newPosition /= objects.Count;
         modificationParent.transform.position = newPosition;
-        for (int i = 0; i < modificationParent.transform.childCount; i++)
+        modificationParent.transform.rotation = Quaternion.identity;
+        modificationParent.transform.localScale = Vector3.one;
+        
+        foreach (GameObject block in objects)
         {
-            modificationParent.transform.GetChild(i).transform.position = objectPositions[i];
+            block.transform.parent = modificationParent.transform;
+        }
+        int i = 0;
+        foreach (GameObject block in objects)
+        {
+            block.transform.localScale = objectScale[i];
+            block.transform.position = objectPosition[i];
+            block.transform.rotation = objectRotation[i];
+            i++;
         }
     }
 }

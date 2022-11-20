@@ -147,17 +147,25 @@ public class ScalingIndividualAxis : MonoBehaviour
                 case "x":
                     scaleChange = new Vector3(xDistanceChange, 0, 0);
                     //setting new scale with calculated values if max/min scale isn't reached yet
-                    zoomObject.transform.localScale += scaleChange * scaleFactor;
+                    foreach (Transform child in zoomObject.transform)
+                    {
+                        child.localScale += scaleChange * scaleFactor;
+                    }
                     break;
                 case "y":
                     scaleChange = new Vector3(0, yDistanceChange, 0);
                     //setting new scale with calculated values if max/min scale isn't reached yet
-                    zoomObject.transform.localScale += scaleChange * scaleFactor;
-                    break;
+                    foreach (Transform child in zoomObject.transform)
+                    {
+                        child.localScale += scaleChange * scaleFactor;
+                    }                    break;
                 case "z":
                     scaleChange = new Vector3(0, 0, zDistanceChange);
                     //setting new scale with calculated values if max/min scale isn't reached yet
-                    zoomObject.transform.localScale += scaleChange * scaleFactor;
+                    foreach (Transform child in zoomObject.transform)
+                    {
+                        child.localScale += scaleChange * scaleFactor;
+                    }
                     break;
             }
         }
