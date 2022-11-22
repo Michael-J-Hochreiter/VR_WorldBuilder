@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 public class SelectionManager : MonoBehaviour
 {
     public bool rightHanded = true;
-    
+
     public InputActionProperty lTriggerDown;
     public InputActionProperty lTriggerUp;
     public InputActionProperty rTriggerDown;
@@ -29,6 +29,7 @@ public class SelectionManager : MonoBehaviour
 
     public List<GameObject> selectedBuildingBlocks = new List<GameObject>();
     private SelectionUI LatestSelectedBlockUI;
+    private BuildingBlock LatestSelectedBlock;
     private OutlineManager outlineManager;
 
     private bool lTriggerPressed = false;
@@ -64,7 +65,7 @@ public class SelectionManager : MonoBehaviour
         {
             shifting = true;
         }
-        
+
         TriggerDown("left");
     }
 
@@ -85,7 +86,10 @@ public class SelectionManager : MonoBehaviour
         if (rightHanded)
         {
             shifting = false;
+            RemoveSelectionMaterial();
+            selectedBuildingBlocks.Clear();
         }
+        
 
         TriggerUp("left");
     }
@@ -96,6 +100,8 @@ public class SelectionManager : MonoBehaviour
         if (!rightHanded)
         {
             shifting = false;
+            RemoveSelectionMaterial();
+            selectedBuildingBlocks.Clear();
         }
 
         TriggerUp("right");
@@ -134,8 +140,9 @@ public class SelectionManager : MonoBehaviour
                     }
 
                     latestHit.GetComponent<BuildingBlock>().EnableSelectionUI();
-                    LatestSelectedBlockUI = latestHit.GetComponent<BuildingBlock>()
-                        .selectionUI.GetComponent<SelectionUI>();
+
+                    LatestSelectedBlock = latestHit.GetComponent<BuildingBlock>();
+                    LatestSelectedBlockUI = LatestSelectedBlock.selectionUI.GetComponent<SelectionUI>();
                 }
             }
         }
@@ -158,33 +165,42 @@ public class SelectionManager : MonoBehaviour
                 switch (hit.transform.tag)
                 {
                     case "rotate":
-                        ParentBlocksAndDisableUI();
+                        ParentBlocks();
+                        DisableUI();
                         stateMachine.state = StateMachine.State.EditingRotation;
                         outlineManager.SetOutlineColor("rotate");
                         break;
                     case "translate":
-                        ParentBlocksAndDisableUI();
+                        ParentBlocks();
+                        DisableUI();
                         stateMachine.state = StateMachine.State.EditingTranslation;
                         outlineManager.SetOutlineColor("translate");
                         break;
                     case "scaleAll":
-                        ParentBlocksAndDisableUI();
+                        ParentBlocks();
+                        DisableUI();
                         stateMachine.state = StateMachine.State.EditingScaleAllAxis;
                         outlineManager.SetOutlineColor("scaleAll");
                         break;
                     case "scaleIndividual":
-                        ParentBlocksAndDisableUI();
+                        ParentBlocks();
+                        DisableUI();
                         stateMachine.state = StateMachine.State.EditingScaleIndividualAxis;
                         outlineManager.SetOutlineColor("scaleIndividual");
                         break;
                     default:
                         if (shifting)
                         {
-                            LatestSelectedBlockUI.GetComponent<BuildingBlock>().DisableSelectionUI();
-                            return;
+                            if (LatestSelectedBlock != null)
+                            {
+                                LatestSelectedBlock.DisableSelectionUI();
+                            }
                         }
-
-                        ParentBlocksAndDisableUI();
+                        else
+                        {
+                            DisableUI();
+                            selectedBuildingBlocks.Clear();
+                        }
 
                         break;
                 }
@@ -193,30 +209,39 @@ public class SelectionManager : MonoBehaviour
             {
                 if (shifting)
                 {
-                    LatestSelectedBlockUI.GetComponent<BuildingBlock>().DisableSelectionUI();
-                    return;
+                    if (LatestSelectedBlock != null)
+                    {
+                        LatestSelectedBlock.DisableSelectionUI();
+                    }
                 }
-
-                ParentBlocksAndDisableUI();
+                else
+                {
+                    DisableUI();
+                    selectedBuildingBlocks.Clear();
+                }
             }
         }
 
         outlineManager.UpdateOutlines();
     }
 
-    private void ParentBlocksAndDisableUI()
+    private void DisableUI()
+    {
+        if (LatestSelectedBlock != null)
+        {
+            LatestSelectedBlock.DisableSelectionUI();
+        }
+
+        RemoveSelectionMaterial();
+    }
+
+    private void ParentBlocks()
     {
         foreach (var block in selectedBuildingBlocks)
         {
             block.transform.parent = modificiationParent;
         }
 
-        if (LatestSelectedBlockUI != null)
-        {
-            LatestSelectedBlockUI.GetComponent<BuildingBlock>().DisableSelectionUI();
-        }
-
-        RemoveSelectionMaterial();
         selectedBuildingBlocks.Clear();
     }
 
@@ -230,10 +255,10 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
-        print("left pressed = " + lTriggerPressed);
-        print("right pressed = " + rTriggerPressed);
-        print("shifting = " + shifting);
-        
+        //print("frame " +Time.frameCount + " left pressed = " + lTriggerPressed);
+        //print("frame " +Time.frameCount + " right pressed = " + rTriggerPressed);
+        //print("frame "+ Time.frameCount + " shifting = " + shifting);
+
         if (doRaycast)
         {
             Ray ray = new Ray(

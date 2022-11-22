@@ -79,7 +79,7 @@ Material:
     m_Floats:
     - Metallic: 0
     - SecondTileScale: 0.94
-    - Smoothness: 0.272
+    - Smoothness: 0
     - TileScale: 0.97
     - Tiling: 1
     - _AlphaClip: 0

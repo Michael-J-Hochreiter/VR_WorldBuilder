@@ -12,13 +12,10 @@ public class Translation : MonoBehaviour
     public Transform debugBlock;
     public float farPositionClip = 10f;
     public float nearPositionClip = 0.1f;
-    
-    private  Transform zoomObject;
-    private  Transform leftHand;
-    private  Transform rightHand;
 
-    private float oldT1 = 0f;
-    private float oldT2 = 0f;
+    private Transform zoomObject;
+    private Transform leftHand;
+    private Transform rightHand;
 
     private StateMachine stateMachine;
     private Transform modificationParent;
@@ -28,25 +25,28 @@ public class Translation : MonoBehaviour
         modificationParent = GameObject.FindWithTag("ModificationParent").transform;
         leftHand = GameObject.FindWithTag("LeftController").transform;
         rightHand = GameObject.FindWithTag("RightController").transform;
-        
+
         stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
     }
-    
+
     void Update()
     {
-
-        if (stateMachine.state == StateMachine.State.EditingTranslation) {
-            var newPosition = CalculateBlockPosition();
-            
-            // FIX THIS: !!!
-            if (!ObjectBelowGround(stateMachine.currentObject.transform)) 
-            {
-                modificationParent.position = newPosition;  
-            }
-
-        } else if (debug)
+        if (stateMachine.state == StateMachine.State.EditingTranslation
+            && stateMachine.leftGrabPressed
+            && stateMachine.rightGrabPressed)
         {
-            if (!float.IsNaN(CalculateBlockPosition().x) && 
+            var newPosition = CalculateBlockPosition();
+
+            // FIX THIS: !!!
+            // if (!ObjectBelowGround(stateMachine.currentObject.transform)) 
+            // {
+            //     modificationParent.position = newPosition;  
+            // }
+            modificationParent.position = newPosition;
+        }
+        else if (debug)
+        {
+            if (!float.IsNaN(CalculateBlockPosition().x) &&
                 !float.IsNaN(CalculateBlockPosition().y) &&
                 !float.IsNaN(CalculateBlockPosition().z))
             {
@@ -62,13 +62,13 @@ public class Translation : MonoBehaviour
         // hand positions
         Vector3 r1 = leftHand.position;
         Vector3 r2 = rightHand.position;
-        
+
         // direction vectors of hands
-        Vector3 e1 = leftHand.forward;  
+        Vector3 e1 = leftHand.forward;
         Vector3 e2 = rightHand.forward;
 
         Vector3 n = Vector3.Cross(e1, e2); // direction vector of closest connecting line
-        
+
         // scalars for first line and second line that lead to endpoints of closest connecting line
         float t1 = Vector3.Dot(Vector3.Cross(e2, n), r2 - r1) / Vector3.Dot(n, n);
         float t2 = Vector3.Dot(Vector3.Cross(e1, n), r2 - r1) / Vector3.Dot(n, n);
@@ -78,23 +78,22 @@ public class Translation : MonoBehaviour
         {
             t1 = Mathf.Clamp(t1, nearPositionClip, farPositionClip);
         }
+
         if (t1 > 0)
         {
             t2 = Mathf.Clamp(t2, nearPositionClip, farPositionClip);
         }
-        
+
         // clip values in case of intersection point being BEHIND player 
-        if (t1 <= 0 )
+        if (t1 <= 0)
         {
             t1 = farPositionClip;
         }
+
         if (t2 <= 0)
         {
             t2 = farPositionClip;
         }
-        
-        oldT1 = t1;
-        oldT2 = t2;
 
         // endpoints of closest connecting line
         Vector3 endpoint1 = r1 + t1 * e1;
@@ -107,12 +106,9 @@ public class Translation : MonoBehaviour
 
     private bool ObjectBelowGround(Transform t)
     {
-        
-        
         // FIX THIS!!!
-        
-        
-        
+
+
         return false;
     }
 }
