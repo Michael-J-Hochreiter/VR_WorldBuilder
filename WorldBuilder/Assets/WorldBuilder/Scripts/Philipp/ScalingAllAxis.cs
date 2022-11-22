@@ -16,7 +16,6 @@ public class ScalingAllAxis : MonoBehaviour
     private float currentDistance;
     private float distanceChange;
     private Vector3 scaleChange;
-    private float totalScale = 1;
     [SerializeField] private float maxScale = 20;
 
     private bool initialize = true;
@@ -49,7 +48,6 @@ public class ScalingAllAxis : MonoBehaviour
         if (initialize)
         {
             //Initializes distance
-            //previousDistance = distance(rightHand.transform.position, leftHand.transform.position);
             previousDistance = Vector3.Distance(rightHand.transform.position, leftHand.transform.position);
             initialize = false;
         }
@@ -60,17 +58,9 @@ public class ScalingAllAxis : MonoBehaviour
         //calculating change to initial vectors and total value changed
         distanceChange = currentDistance - previousDistance;
         scaleChange = new Vector3(distanceChange, distanceChange, distanceChange);
-        if ((totalScale >= 1 / maxScale && distanceChange < 0) || (totalScale <= maxScale && distanceChange > 0))
-        {
-            totalScale += distanceChange;
-        }
-            
-        //setting new scale with calculated values if max/min scale isn't reached yet
-        if (totalScale >= 1 / maxScale && totalScale <= maxScale)
-        {
-            zoomObject.transform.localScale += scaleChange * 0.7f;
-        }
-            
+        //setting new scale with calculated values 
+        zoomObject.transform.localScale += scaleChange * 0.7f;
+
         //resetting Vector
         previousDistance = currentDistance;
     }

@@ -39,7 +39,7 @@ public class UpdateParentPosition : MonoBehaviour
     {
         List<GameObject> objects = new List<GameObject>();
         List<Vector3> objectPosition = new List<Vector3>();
-        List<Vector3> objectScale = new List<Vector3>();
+        //List<Vector3> objectScale = new List<Vector3>();
         List<Quaternion> objectRotation = new List<Quaternion>();
         Vector3 newPosition = Vector3.zero;
         
@@ -49,7 +49,7 @@ public class UpdateParentPosition : MonoBehaviour
             objects.Add(child.gameObject);
             objectPosition.Add(child.position);
             objectRotation.Add(child.rotation);
-            objectScale.Add(child.localScale);
+            //objectScale.Add(child.localScale);
         }
         foreach (GameObject child in objects)
         {
@@ -68,9 +68,9 @@ public class UpdateParentPosition : MonoBehaviour
         int i = 0;
         foreach (GameObject block in objects)
         {
-            block.transform.localScale = objectScale[i];
+            //block.transform.localScale = objectScale[i];
             block.transform.position = objectPosition[i];
-            block.transform.rotation = objectRotation[i];
+            block.transform.localRotation = objectRotation[i];
             i++;
         }
     }
