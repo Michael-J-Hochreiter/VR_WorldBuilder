@@ -11,6 +11,7 @@ public class ScalingIndividualAxis : MonoBehaviour
     private GameObject zoomObject;
     private GameObject leftHand;
     private GameObject rightHand;
+    private Transform camera;
 
     private Vector3 rightHandPos;
     private Vector3 leftHandPos;
@@ -30,16 +31,15 @@ public class ScalingIndividualAxis : MonoBehaviour
 
     private String currentAxis = "";
     private String previousAxis = "";
-    
+
     private Vector3 scaleChange;
     private float xTotalScaleChange = 0;
     private float yTotalScaleChange = 0;
     private float zTotalScaleChange = 0;
-    [SerializeField] private float maxScale = 20;
 
     private bool initialize = true;
     private bool initializeAxis = true;
-    
+
     private List<Vector3> objectScales = new List<Vector3>();
     [SerializeField] private float scaleFactor = 1.3f;
 
@@ -48,6 +48,8 @@ public class ScalingIndividualAxis : MonoBehaviour
         zoomObject = GameObject.FindWithTag("ModificationParent");
         leftHand = GameObject.FindWithTag("LeftController");
         rightHand = GameObject.FindWithTag("RightController");
+        camera = GameObject.FindWithTag("MainCamera").transform;
+
 
         stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
 
@@ -58,7 +60,8 @@ public class ScalingIndividualAxis : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (stateMachine.state == StateMachine.State.EditingScaleIndividualAxis && stateMachine.leftGrabPressed && stateMachine.rightGrabPressed && zoomObject.transform.childCount > 0)
+        if (stateMachine.state == StateMachine.State.EditingScaleIndividualAxis && stateMachine.leftGrabPressed &&
+            stateMachine.rightGrabPressed && zoomObject.transform.childCount > 0)
         {
             rightHandPos = rightHand.transform.position;
             leftHandPos = leftHand.transform.position;
@@ -76,7 +79,6 @@ public class ScalingIndividualAxis : MonoBehaviour
             //Happens every time the user releases the grab buttons
             initialize = true;
             initializeAxis = true;
-            //resetParentScale();
         }
     }
 
@@ -89,7 +91,7 @@ public class ScalingIndividualAxis : MonoBehaviour
             new Vector3(rightHandPos.x, leftHandPos.y, rightHandPos.z));
         zCurrentDistance = Vector3.Distance(rightHandPos,
             new Vector3(rightHandPos.x, rightHandPos.y, leftHandPos.z));
-        
+
         //calculating change to initial vectors and total value changed
         xDistanceChange = xCurrentDistance - xPreviousDistance;
         yDistanceChange = yCurrentDistance - yPreviousDistance;
@@ -119,11 +121,14 @@ public class ScalingIndividualAxis : MonoBehaviour
 
     private void determineAxis()
     {
-        if (Math.Abs(xTotalScaleChange) >= Math.Abs(yTotalScaleChange) && Math.Abs(xTotalScaleChange) >= Math.Abs(zTotalScaleChange))
+        //checks on which axis the user wants to scale the object
+        if (Math.Abs(xTotalScaleChange) >= Math.Abs(yTotalScaleChange) &&
+            Math.Abs(xTotalScaleChange) >= Math.Abs(zTotalScaleChange))
         {
             currentAxis = "x";
         }
-        else if (Math.Abs(yTotalScaleChange) >= Math.Abs(xTotalScaleChange) && Math.Abs(yTotalScaleChange) >= Math.Abs(zTotalScaleChange))
+        else if (Math.Abs(yTotalScaleChange) >= Math.Abs(xTotalScaleChange) &&
+                 Math.Abs(yTotalScaleChange) >= Math.Abs(zTotalScaleChange))
         {
             currentAxis = "y";
         }
@@ -131,6 +136,7 @@ public class ScalingIndividualAxis : MonoBehaviour
         {
             currentAxis = "z";
         }
+        
         if (initializeAxis)
         {
             previousAxis = currentAxis;
@@ -142,31 +148,23 @@ public class ScalingIndividualAxis : MonoBehaviour
     {
         if (currentAxis == previousAxis)
         {
-            switch (currentAxis)
+            //scales along the zoomobject's axis 
             {
-                case "x":
-                    scaleChange = new Vector3(xDistanceChange, 0, 0);
-                    //setting new scale with calculated values if max/min scale isn't reached yet
-                    foreach (Transform child in zoomObject.transform)
-                    {
-                        child.localScale += scaleChange * scaleFactor;
-                    }
-                    break;
-                case "y":
-                    scaleChange = new Vector3(0, yDistanceChange, 0);
-                    //setting new scale with calculated values if max/min scale isn't reached yet
-                    foreach (Transform child in zoomObject.transform)
-                    {
-                        child.localScale += scaleChange * scaleFactor;
-                    }                    break;
-                case "z":
-                    scaleChange = new Vector3(0, 0, zDistanceChange);
-                    //setting new scale with calculated values if max/min scale isn't reached yet
-                    foreach (Transform child in zoomObject.transform)
-                    {
-                        child.localScale += scaleChange * scaleFactor;
-                    }
-                    break;
+                switch (currentAxis)
+                {
+                    case "x":
+                        scaleChange = new Vector3(xDistanceChange, 0, 0);
+                        zoomObject.transform.localScale += scaleChange * scaleFactor;
+                        break;
+                    case "y":
+                        scaleChange = new Vector3(0, yDistanceChange, 0);
+                        zoomObject.transform.localScale += scaleChange * scaleFactor;
+                        break;
+                    case "z":
+                        scaleChange = new Vector3(0, 0, zDistanceChange);
+                        zoomObject.transform.localScale += scaleChange * scaleFactor;
+                        break;
+                }
             }
         }
         else
@@ -178,19 +176,5 @@ public class ScalingIndividualAxis : MonoBehaviour
         yPreviousDistance = yCurrentDistance;
         zPreviousDistance = zCurrentDistance;
         previousAxis = currentAxis;
-    }
-
-    private void resetParentScale()
-    {
-        foreach (Transform child in zoomObject.transform)
-        {
-            objectScales.Add(child.localScale);
-        }
-
-        zoomObject.transform.localScale = new Vector3(1, 1, 1);
-        for (int i = 0; i < zoomObject.transform.childCount; i++)
-        {
-            zoomObject.transform.GetChild(i).transform.localScale = objectScales[i];
-        }
     }
 }

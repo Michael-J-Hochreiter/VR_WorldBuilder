@@ -16,6 +16,7 @@ TagManager:
   - PlayerCamera
   - UITracker
   - StaticBlockParent
+  - RotationParent
   layers:
   - Default
   - TransparentFX
