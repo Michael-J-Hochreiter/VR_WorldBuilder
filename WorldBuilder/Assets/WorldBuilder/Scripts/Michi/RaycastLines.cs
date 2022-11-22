@@ -11,8 +11,8 @@ public class RaycastLines : MonoBehaviour
     
     private LineRenderer lineRenderer;
     private StateMachine stateMachine;
-    private Color aimedAtBlockEndColor = new Color(0, 1, 0);
-    private Color aimedAtBlockStartColor = new Color(0.7f, 1, 0.7f);
+    private Color aimedAtBlockEndColor = new Color(0, 1, 0, 1.0f);
+    private Color aimedAtBlockStartColor = new Color(0.7f, 1, 0.7f, 0.3f);
 
     void Awake()
     {
@@ -34,8 +34,8 @@ public class RaycastLines : MonoBehaviour
         lineRenderer.startWidth = 0.02f;
         lineRenderer.endWidth = 0.02f;
         lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
-        lineRenderer.startColor = new Color(1,1,1);
-        lineRenderer.endColor = new Color(1,1,1);
+        lineRenderer.startColor = new Color(1,1,1, 0.15f);
+        lineRenderer.endColor = new Color(1,1,1, 0.15f);
         lineRenderer.loop = false;
     }
 
@@ -48,12 +48,6 @@ public class RaycastLines : MonoBehaviour
         }
         else
         {
-            // if (stateMachine.state == StateMachine.State.Idle ||
-            //     stateMachine.state == StateMachine.State.EditingTranslation)
-            // {
-            //
-            // }
-
             if (stateMachine.state != StateMachine.State.EditingScaleAllAxis
                 || stateMachine.state != StateMachine.State.EditingScaleIndividualAxis
                 || stateMachine.state != StateMachine.State.EditingRotation)
@@ -76,6 +70,7 @@ public class RaycastLines : MonoBehaviour
 
         RaycastHit hit;
 
+        Color c = new Color(1,1,1, 0.15f);
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             points[1] = hit.point;
@@ -86,14 +81,14 @@ public class RaycastLines : MonoBehaviour
             }
             else
             {
-                lineRenderer.endColor = Color.white;
-                lineRenderer.startColor = Color.white;
+                lineRenderer.endColor = c;
+                lineRenderer.startColor = c;
             }
         }
         else
         {
-            lineRenderer.endColor = Color.white;
-            lineRenderer.startColor = Color.white;
+            lineRenderer.endColor = c;
+            lineRenderer.startColor = c;
         }
         lineRenderer.SetPositions(points);
     }
