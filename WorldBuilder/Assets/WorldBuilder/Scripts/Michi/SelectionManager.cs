@@ -1,34 +1,39 @@
 // AUTHOR: MICHAEL HOCHREITER
 
 using System;
+using System.Collections.Generic;
+using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class SelectionManager : MonoBehaviour
 {
-    public InputActionProperty lTriggerPressed;
-    public InputActionProperty lTriggerReleased;
+    public bool rightHanded = true;
+    public InputActionProperty lTriggerDown;
+    public InputActionProperty lTriggerUp;
 
-    public InputActionProperty rTriggerPressed;
-    public InputActionProperty rTriggerReleased;
+    public InputActionProperty rTriggerDown;
+    public InputActionProperty rTriggerUp;
 
     public Transform modificiationParent;
+
+    public Material selectedMaterial;
+    public Material notSelectedMaterial;
 
     private StateMachine stateMachine;
     private Transform lHand;
     private Transform rHand;
     private bool doRaycast = false;
-    private String currentHand = "";
-    
-    public Transform controllerHead;
-    //public GameObject selectionUI;
-    //public Transform modificationParent;
+    private String currentSelectionHand = "";
 
-    [HideInInspector] public GameObject selectedBuildingBlock = null;
-    private SelectionUI selectedBlockUI;
+    public List<GameObject> selectedBuildingBlocks = new List<GameObject>();
+    private SelectionUI LatestSelectedBlockUI;
     private OutlineManager outlineManager;
 
+    private bool lTriggerPressed = false;
+    private bool rTriggerPressed = false;
+    private bool shifting = false;
 
     private void Awake()
     {
@@ -41,74 +46,112 @@ public class SelectionManager : MonoBehaviour
 
     public void OnEnable()
     {
-        if (lTriggerPressed.action != null) lTriggerPressed.action.Enable();
-        if (lTriggerPressed.action != null) lTriggerPressed.action.performed += LTriggerPressed;
-        if (lTriggerReleased.action != null) lTriggerReleased.action.Enable();
-        if (lTriggerReleased.action != null) lTriggerReleased.action.performed += LTriggerReleased;
+        if (lTriggerDown.action != null) lTriggerDown.action.Enable();
+        if (lTriggerDown.action != null) lTriggerDown.action.performed += LTriggerDown;
+        if (lTriggerUp.action != null) lTriggerUp.action.Enable();
+        if (lTriggerUp.action != null) lTriggerUp.action.performed += LTriggerUp;
 
-        if (rTriggerPressed.action != null) rTriggerPressed.action.Enable();
-        if (rTriggerPressed.action != null) rTriggerPressed.action.performed += RTriggerPressed;
-        if (rTriggerReleased.action != null) rTriggerReleased.action.Enable();
-        if (rTriggerReleased.action != null) rTriggerReleased.action.performed += RTriggerReleased;
-    }
-    
-    void LTriggerPressed(InputAction.CallbackContext trigger)
-    {
-        TriggerPressed("left");
-    }
-    void RTriggerPressed(InputAction.CallbackContext trigger)
-    {
-        TriggerPressed("right");
-    }
-    void LTriggerReleased(InputAction.CallbackContext trigger)
-    {
-        TriggerReleased("left");
-    }
-    void RTriggerReleased(InputAction.CallbackContext trigger)
-    {
-        TriggerReleased("right");
+        if (rTriggerDown.action != null) rTriggerDown.action.Enable();
+        if (rTriggerDown.action != null) rTriggerDown.action.performed += RTriggerDown;
+        if (rTriggerUp.action != null) rTriggerUp.action.Enable();
+        if (rTriggerUp.action != null) rTriggerUp.action.performed += RTriggerUp;
     }
 
-    private void TriggerPressed(string hand)
+    void LTriggerDown(InputAction.CallbackContext trigger)
     {
-        Debug.Log(hand + " trigger pressed");
-        doRaycast = true;
-        currentHand = hand;
-
-
-        if (stateMachine.state == StateMachine.State.Idle)
+        lTriggerPressed = true;
+        if (rightHanded)
         {
+            shifting = true;
+        }
+
+
+        TriggerDown("left");
+    }
+
+    void RTriggerDown(InputAction.CallbackContext trigger)
+    {
+        rTriggerPressed = true;
+        if (!rightHanded)
+        {
+            shifting = true;
+        }
+
+        TriggerDown("right");
+    }
+
+    void LTriggerUp(InputAction.CallbackContext trigger)
+    {
+        lTriggerPressed = false;
+        if (rightHanded)
+        {
+            shifting = false;
+        }
+
+        TriggerUp("left");
+    }
+
+    void RTriggerUp(InputAction.CallbackContext trigger)
+    {
+        rTriggerPressed = false;
+        if (!rightHanded)
+        {
+            shifting = false;
+        }
+
+        TriggerUp("right");
+    }
+
+    private void TriggerDown(string hand)
+    {
+        if ((hand == "right" && rightHanded) || (hand == "left" && !rightHanded))
+        {
+            doRaycast = true;
+            currentSelectionHand = hand;
+
             RaycastHit hit;
             Ray ray = new Ray(
-                hand == "left" ? lHand.position : rHand.position, 
-                hand == "left" ? lHand.forward : rHand.forward);
+                rightHanded ? rHand.position : lHand.position,
+                rightHanded ? rHand.forward : lHand.forward);
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 if (hit.transform.CompareTag("BuildingBlock"))
                 {
-                    selectedBuildingBlock = hit.transform.gameObject;
-                    selectedBuildingBlock.GetComponent<BuildingBlock>().EnableSelectionUI();
-                    selectedBlockUI = selectedBuildingBlock.
-                        GetComponent<BuildingBlock>().selectionUI.
-                        GetComponent<SelectionUI>();
+                    if (!shifting)
+                    {
+                        RemoveSelectionMaterial();
+                        selectedBuildingBlocks.Clear();
+                    }
+
+                    var latestHit = hit.transform.gameObject;
+
+                    selectedBuildingBlocks.Add(latestHit);
+                    latestHit.GetComponent<MeshRenderer>().material = selectedMaterial;
+
+                    foreach (var block in selectedBuildingBlocks)
+                    {
+                        block.GetComponent<BuildingBlock>().DisableSelectionUI();
+                    }
+
+                    latestHit.GetComponent<BuildingBlock>().EnableSelectionUI();
+                    LatestSelectedBlockUI = latestHit.GetComponent<BuildingBlock>()
+                        .selectionUI.GetComponent<SelectionUI>();
                 }
             }
         }
     }
 
-    private void TriggerReleased(string hand)
+    private void TriggerUp(string hand)
     {
-        Debug.Log(hand + " trigger released");
-        doRaycast = false;
-        currentHand = "";
-        
-        if (stateMachine.state == StateMachine.State.Idle)
+        if ((hand == "right" && rightHanded) || (hand == "left" && !rightHanded))
         {
-            print("relased in idle mode");
+            doRaycast = false;
+            currentSelectionHand = "";
+
             RaycastHit hit;
             Ray ray = new Ray(
-                hand == "left" ? lHand.position : rHand.position, 
+                hand == "left" ? lHand.position : rHand.position,
                 hand == "left" ? lHand.forward : rHand.forward);
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
@@ -116,89 +159,106 @@ public class SelectionManager : MonoBehaviour
                 switch (hit.transform.tag)
                 {
                     case "rotate":
+                        ParentBlocksAndDisableUI();
                         stateMachine.state = StateMachine.State.EditingRotation;
-                        //stateMachine.currentObject = selectedBuildingBlock;
                         outlineManager.SetOutlineColor("rotate");
                         break;
                     case "translate":
+                        ParentBlocksAndDisableUI();
                         stateMachine.state = StateMachine.State.EditingTranslation;
-                        //stateMachine.currentObject = selectedBuildingBlock;
                         outlineManager.SetOutlineColor("translate");
                         break;
                     case "scaleAll":
+                        ParentBlocksAndDisableUI();
                         stateMachine.state = StateMachine.State.EditingScaleAllAxis;
-                        //stateMachine.currentObject = selectedBuildingBlock;
                         outlineManager.SetOutlineColor("scaleAll");
                         break;
                     case "scaleIndividual":
+                        ParentBlocksAndDisableUI();
                         stateMachine.state = StateMachine.State.EditingScaleIndividualAxis;
-                        //stateMachine.currentObject = selectedBuildingBlock;
                         outlineManager.SetOutlineColor("scaleIndividual");
                         break;
                     default:
+                        if (shifting)
+                        {
+                            LatestSelectedBlockUI.GetComponent<BuildingBlock>().DisableSelectionUI();
+                            return;
+                        }
+
+                        ParentBlocksAndDisableUI();
+
                         break;
                 }
-
-                // check if there is a buildingBlock selected (!= null), and the enable its selectionUI
-                if (selectedBuildingBlock)
-                {
-                    selectedBuildingBlock.GetComponent<BuildingBlock>().DisableSelectionUI();
-                    //
-                    // MOVE BLOCK INTO TRANSFORMATION PARENT
-                    //
-                    //outlineManager.UpdateOutlines();
-                }
             }
-
-            if (selectedBuildingBlock != null )
+            else
             {
-                if (stateMachine.state != StateMachine.State.Idle)
+                if (shifting)
                 {
-                    selectedBuildingBlock.transform.parent = modificiationParent;
-                    stateMachine.currentObject = selectedBuildingBlock;
+                    LatestSelectedBlockUI.GetComponent<BuildingBlock>().DisableSelectionUI();
+                    return;
                 }
-                selectedBuildingBlock.GetComponent<BuildingBlock>().DisableSelectionUI();
+
+                ParentBlocksAndDisableUI();
             }
-            
-            selectedBuildingBlock = null;
-            selectedBlockUI = null;
         }
+
         outlineManager.UpdateOutlines();
     }
-    
+
+    private void ParentBlocksAndDisableUI()
+    {
+        foreach (var block in selectedBuildingBlocks)
+        {
+            block.transform.parent = modificiationParent;
+        }
+
+        LatestSelectedBlockUI.GetComponent<BuildingBlock>().DisableSelectionUI();
+        RemoveSelectionMaterial();
+        selectedBuildingBlocks.Clear();
+    }
+
+    private void RemoveSelectionMaterial()
+    {
+        foreach (var block in selectedBuildingBlocks)
+        {
+            block.GetComponent<MeshRenderer>().material = notSelectedMaterial;
+        }
+    }
+
     private void Update()
     {
+        print("shifting = " + shifting);
+        
         if (doRaycast)
         {
             Ray ray = new Ray(
-                currentHand == "left" ? lHand.position : rHand.position, 
-                currentHand == "left" ? lHand.forward : rHand.forward);
-            
+                currentSelectionHand == "left" ? lHand.position : rHand.position,
+                currentSelectionHand == "left" ? lHand.forward : rHand.forward);
+
             RaycastHit hit;
-            if (selectedBuildingBlock != null)
+            if (LatestSelectedBlockUI != null)
             {
-                if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+                LatestSelectedBlockUI.RemoveUISegmentHighlight();
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-  
-                    selectedBlockUI.RemoveUISegmentHighlight();
                     switch (hit.collider.tag)
                     {
                         case "translate":
-                            selectedBlockUI.HighlightUISegment(SelectionUI.Segment.Translate);
+                            LatestSelectedBlockUI.HighlightUISegment(SelectionUI.Segment.Translate);
                             break;
                         case "rotate":
-                            selectedBlockUI.HighlightUISegment(SelectionUI.Segment.Rotate);
+                            LatestSelectedBlockUI.HighlightUISegment(SelectionUI.Segment.Rotate);
                             break;
                         case "scaleIndividual":
-                            selectedBlockUI.HighlightUISegment(SelectionUI.Segment.ScaleIndividual);
+                            LatestSelectedBlockUI.HighlightUISegment(SelectionUI.Segment.ScaleIndividual);
                             break;
                         case "scaleAll":
-                            selectedBlockUI.HighlightUISegment(SelectionUI.Segment.ScaleAll);
+                            LatestSelectedBlockUI.HighlightUISegment(SelectionUI.Segment.ScaleAll);
                             break;
                         default:
                             break;
                     }
-                } 
+                }
             }
         }
     }
