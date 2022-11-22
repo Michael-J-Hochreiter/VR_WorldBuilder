@@ -16,7 +16,10 @@ public class Translation : MonoBehaviour
     private  Transform zoomObject;
     private  Transform leftHand;
     private  Transform rightHand;
-    
+
+    private float oldT1 = 0f;
+    private float oldT2 = 0f;
+
     private StateMachine stateMachine;
 
     private void Awake()
@@ -65,13 +68,39 @@ public class Translation : MonoBehaviour
         // clamp distance where the block can be placed so it cannot be placed inifitely far away as lines start to get more parallel
         t1 = Mathf.Clamp(t1, nearPositionClip, farPositionClip);
         t2 = Mathf.Clamp(t2, nearPositionClip, farPositionClip);
+        
+        // clip values in case of intersection point being BEHIND player 
+        // also smooth values
+        var velocityT1 = 0.0f;
+        var velocityT2 = 0.0f;
+        
+        if (t1 < 0)
+        {
+            t1 = farPositionClip;
+        }
+        else
+        {
+            Mathf.SmoothDamp(oldT1, t1, ref velocityT1, 0.05f);
+        }
+        
+        if (t2 < 0)
+        {
+            t2 = farPositionClip;
+        }
+        else
+        {
+            Mathf.SmoothDamp(oldT2, t2, ref velocityT2, 0.05f);
+        }
+        
+        oldT1 = t1;
+        oldT2 = t2;
 
         // endpoints of closest connecting line
         Vector3 endpoint1 = r1 + t1 * e1;
         Vector3 endpoint2 = r2 + t2 * e2;
 
         Vector3 midpoint = Vector3.Lerp(endpoint1, endpoint2, 0.5f); // point where the block will be places
-        
+
         return midpoint;
     }
 }
