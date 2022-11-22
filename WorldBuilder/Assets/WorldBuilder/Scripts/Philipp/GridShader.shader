@@ -17,11 +17,12 @@ Shader "Unlit/GridShader"
             #pragma fragment frag
             // make fog work
             #pragma multi_compile_fog
-
             #include "UnityCG.cginc"
+
 
             struct appdata
             {
+                UNITY_VERTEX_INPUT_INSTANCE_ID
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
             };
@@ -30,6 +31,7 @@ Shader "Unlit/GridShader"
             {
                 float2 uv : TEXCOORD0;
                 UNITY_FOG_COORDS(1)
+                UNITY_VERTEX_OUTPUT_STEREO
                 float4 vertex : SV_POSITION;
             };
 
@@ -43,6 +45,8 @@ Shader "Unlit/GridShader"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 UNITY_TRANSFER_FOG(o,o.vertex);
+                UNITY_SETUP_INSTANCE_ID(v);
+                UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
                 return o;
             }
 

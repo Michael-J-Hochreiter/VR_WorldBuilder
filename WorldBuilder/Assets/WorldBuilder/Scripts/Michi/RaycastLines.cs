@@ -31,8 +31,8 @@ public class RaycastLines : MonoBehaviour
 
     private void Start()
     {
-        lineRenderer.startWidth = 0.01f;
-        lineRenderer.endWidth = 0.01f;
+        lineRenderer.startWidth = 0.02f;
+        lineRenderer.endWidth = 0.02f;
         lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
         lineRenderer.startColor = new Color(1,1,1);
         lineRenderer.endColor = new Color(1,1,1);
@@ -41,6 +41,7 @@ public class RaycastLines : MonoBehaviour
 
     void Update()
     {
+ 
         if (debug)
         {
             DrawRaycastLine();

@@ -10,9 +10,9 @@ using UnityEngine.InputSystem;
 public class SelectionManager : MonoBehaviour
 {
     public bool rightHanded = true;
+    
     public InputActionProperty lTriggerDown;
     public InputActionProperty lTriggerUp;
-
     public InputActionProperty rTriggerDown;
     public InputActionProperty rTriggerUp;
 
@@ -64,8 +64,7 @@ public class SelectionManager : MonoBehaviour
         {
             shifting = true;
         }
-
-
+        
         TriggerDown("left");
     }
 
@@ -212,7 +211,11 @@ public class SelectionManager : MonoBehaviour
             block.transform.parent = modificiationParent;
         }
 
-        LatestSelectedBlockUI.GetComponent<BuildingBlock>().DisableSelectionUI();
+        if (LatestSelectedBlockUI != null)
+        {
+            LatestSelectedBlockUI.GetComponent<BuildingBlock>().DisableSelectionUI();
+        }
+
         RemoveSelectionMaterial();
         selectedBuildingBlocks.Clear();
     }
@@ -227,6 +230,8 @@ public class SelectionManager : MonoBehaviour
 
     private void Update()
     {
+        print("left pressed = " + lTriggerPressed);
+        print("right pressed = " + rTriggerPressed);
         print("shifting = " + shifting);
         
         if (doRaycast)
