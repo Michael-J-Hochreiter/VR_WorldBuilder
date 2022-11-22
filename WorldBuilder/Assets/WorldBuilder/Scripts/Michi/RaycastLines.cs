@@ -48,8 +48,15 @@ public class RaycastLines : MonoBehaviour
         }
         else
         {
-            if (stateMachine.state == StateMachine.State.Idle ||
-                stateMachine.state == StateMachine.State.EditingTranslation)
+            // if (stateMachine.state == StateMachine.State.Idle ||
+            //     stateMachine.state == StateMachine.State.EditingTranslation)
+            // {
+            //
+            // }
+
+            if (stateMachine.state != StateMachine.State.EditingScaleAllAxis
+                || stateMachine.state != StateMachine.State.EditingScaleIndividualAxis
+                || stateMachine.state != StateMachine.State.EditingRotation)
             {
                 DrawRaycastLine();
             }
@@ -58,6 +65,7 @@ public class RaycastLines : MonoBehaviour
 
     void DrawRaycastLine()
     {
+        lineRenderer.positionCount = 2;
         var points = new Vector3[2];
         points[0] = transform.position;
         points[1] = transform.position + Vector3.Normalize(transform.forward) * 100f; // by default the end point is just very far away
