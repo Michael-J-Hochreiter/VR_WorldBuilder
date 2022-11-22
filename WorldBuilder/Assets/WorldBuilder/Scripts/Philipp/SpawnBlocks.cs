@@ -34,20 +34,42 @@ public class SpawnBlocks : MonoBehaviour
         }
         if (stateMachine.state != StateMachine.State.Idle && stateMachine.primaryPressed)
         {
-            List<GameObject> objects = new List<GameObject>();
-            foreach (Transform child in modificationParent.transform)
-            {
-                objects.Add(child.gameObject);
-            }
-            foreach (GameObject obj in objects)
-            {
-                obj.transform.parent = staticBlockParent.transform;
-            }
-            stateMachine.state = StateMachine.State.Idle;
-            stateMachine.primaryPressed = false;
-            
-            outlineManager.UpdateOutlines();
+            // List<GameObject> objects = new List<GameObject>();
+            // foreach (Transform child in modificationParent.transform)
+            // {
+            //     objects.Add(child.gameObject);
+            // }
+            // foreach (GameObject obj in objects)
+            // {
+            //     obj.transform.parent = staticBlockParent.transform;
+            // }
+            // stateMachine.state = StateMachine.State.Idle;
+            // stateMachine.primaryPressed = false;
+            //
+            // outlineManager.UpdateOutlines();
+
+            MoveObjectsToStaticBlockParent();
         }
+        
     }
+
+    public void MoveObjectsToStaticBlockParent()
+    {
+        List<GameObject> objects = new List<GameObject>();
+        foreach (Transform child in modificationParent.transform)
+        {
+            objects.Add(child.gameObject);
+        }
+        foreach (GameObject obj in objects)
+        {
+            obj.transform.parent = staticBlockParent.transform;
+        }
+        stateMachine.state = StateMachine.State.Idle;
+        stateMachine.primaryPressed = false;
+            
+        outlineManager.UpdateOutlines();
+    }
+    
+    
     
 }

@@ -18,9 +18,6 @@ public class SelectionManager : MonoBehaviour
 
     public Transform modificiationParent;
 
-    public Material selectedMaterial;
-    public Material notSelectedMaterial;
-
     private StateMachine stateMachine;
     private Transform lHand;
     private Transform rHand;
@@ -31,6 +28,7 @@ public class SelectionManager : MonoBehaviour
     private SelectionUI LatestSelectedBlockUI;
     private BuildingBlock LatestSelectedBlock;
     private OutlineManager outlineManager;
+    private SpawnBlocks spawnBlocks;
 
     private bool lTriggerPressed = false;
     private bool rTriggerPressed = false;
@@ -43,6 +41,7 @@ public class SelectionManager : MonoBehaviour
         rHand = GameObject.FindWithTag("RightController").transform;
         outlineManager = gameObject.GetComponent<OutlineManager>();
         modificiationParent = GameObject.FindWithTag("ModificationParent").transform;
+        spawnBlocks = stateMachine.GetComponent<SpawnBlocks>();
     }
 
     public void OnEnable()
@@ -86,10 +85,14 @@ public class SelectionManager : MonoBehaviour
         if (rightHanded)
         {
             shifting = false;
-            RemoveSelectionMaterial();
             selectedBuildingBlocks.Clear();
+            if (stateMachine.state == StateMachine.State.Idle)
+            {
+                RemoveOutline();
+                spawnBlocks.MoveObjectsToStaticBlockParent();
+            }
+            outlineManager.UpdateOutlines();
         }
-        
 
         TriggerUp("left");
     }
@@ -100,8 +103,13 @@ public class SelectionManager : MonoBehaviour
         if (!rightHanded)
         {
             shifting = false;
-            RemoveSelectionMaterial();
             selectedBuildingBlocks.Clear();
+            if (stateMachine.state == StateMachine.State.Idle)
+            {
+                RemoveOutline();
+                spawnBlocks.MoveObjectsToStaticBlockParent();
+                outlineManager.UpdateOutlines();
+            }
         }
 
         TriggerUp("right");
@@ -125,14 +133,17 @@ public class SelectionManager : MonoBehaviour
                 {
                     if (!shifting)
                     {
-                        RemoveSelectionMaterial();
+                        RemoveOutline();
                         selectedBuildingBlocks.Clear();
                     }
 
                     var latestHit = hit.transform.gameObject;
+                    var outline = latestHit.GetComponent<Outline>();
+                    outline.enabled = true;
+                    outline.OutlineColor = Color.white;
+
 
                     selectedBuildingBlocks.Add(latestHit);
-                    latestHit.GetComponent<MeshRenderer>().material = selectedMaterial;
 
                     foreach (var block in selectedBuildingBlocks)
                     {
@@ -169,24 +180,28 @@ public class SelectionManager : MonoBehaviour
                         DisableUI();
                         stateMachine.state = StateMachine.State.EditingRotation;
                         outlineManager.SetOutlineColor("rotate");
+                        outlineManager.UpdateOutlines();
                         break;
                     case "translate":
                         ParentBlocks();
                         DisableUI();
                         stateMachine.state = StateMachine.State.EditingTranslation;
                         outlineManager.SetOutlineColor("translate");
+                        outlineManager.UpdateOutlines();
                         break;
                     case "scaleAll":
                         ParentBlocks();
                         DisableUI();
                         stateMachine.state = StateMachine.State.EditingScaleAllAxis;
                         outlineManager.SetOutlineColor("scaleAll");
+                        outlineManager.UpdateOutlines();
                         break;
                     case "scaleIndividual":
                         ParentBlocks();
                         DisableUI();
                         stateMachine.state = StateMachine.State.EditingScaleIndividualAxis;
                         outlineManager.SetOutlineColor("scaleIndividual");
+                        outlineManager.UpdateOutlines();
                         break;
                     default:
                         if (shifting)
@@ -222,7 +237,10 @@ public class SelectionManager : MonoBehaviour
             }
         }
 
-        outlineManager.UpdateOutlines();
+        if (!shifting)
+        {
+            outlineManager.UpdateOutlines();
+        }
     }
 
     private void DisableUI()
@@ -232,11 +250,13 @@ public class SelectionManager : MonoBehaviour
             LatestSelectedBlock.DisableSelectionUI();
         }
 
-        RemoveSelectionMaterial();
+        RemoveOutline();
     }
 
     private void ParentBlocks()
     {
+        spawnBlocks.MoveObjectsToStaticBlockParent();
+        
         foreach (var block in selectedBuildingBlocks)
         {
             block.transform.parent = modificiationParent;
@@ -245,20 +265,16 @@ public class SelectionManager : MonoBehaviour
         selectedBuildingBlocks.Clear();
     }
 
-    private void RemoveSelectionMaterial()
+    private void RemoveOutline()
     {
         foreach (var block in selectedBuildingBlocks)
         {
-            block.GetComponent<MeshRenderer>().material = notSelectedMaterial;
+            block.GetComponent<Outline>().enabled = false;
         }
     }
 
     private void Update()
     {
-        //print("frame " +Time.frameCount + " left pressed = " + lTriggerPressed);
-        //print("frame " +Time.frameCount + " right pressed = " + rTriggerPressed);
-        //print("frame "+ Time.frameCount + " shifting = " + shifting);
-
         if (doRaycast)
         {
             Ray ray = new Ray(
