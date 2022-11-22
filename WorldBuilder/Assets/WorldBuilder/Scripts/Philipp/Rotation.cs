@@ -8,7 +8,7 @@ using UnityEngine.PlayerLoop;
 
 public class Rotation : MonoBehaviour
 {
-    [SerializeField] private float rotationForce = 1.0f;
+    [SerializeField] private float rotationForce = 1.5f;
     
     private  GameObject zoomObject;
     private  Vector3 leftHandPosition;

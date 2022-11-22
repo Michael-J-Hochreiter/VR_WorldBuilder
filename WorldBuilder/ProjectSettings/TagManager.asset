@@ -13,6 +13,9 @@ TagManager:
   - translate
   - scaleAll
   - scaleIndividual
+  - PlayerCamera
+  - UITracker
+  - StaticBlockParent
   layers:
   - Default
   - TransparentFX

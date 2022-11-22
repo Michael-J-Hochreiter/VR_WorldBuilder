@@ -6,8 +6,8 @@ using UnityEngine;
 public class SelectionUI : MonoBehaviour
 {
     public float distanceToPlayer = 3f;
-    public float alphaSelectedSegment = 0.3f;
-    public float alphaNotSelectedSegment = 1.0f;
+    public float alphaSelectedSegment = 1.0f;
+    public float alphaNotSelectedSegment = 0.3f;
     [HideInInspector] public Transform buildingBlock;
 
     private Transform player;
@@ -24,7 +24,7 @@ public class SelectionUI : MonoBehaviour
     
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player").transform;
+        player = GameObject.FindGameObjectWithTag("UITracker").transform;
         UI = transform.Find("UI");
 
         for (int i = 0; i < UI.transform.childCount; i++)

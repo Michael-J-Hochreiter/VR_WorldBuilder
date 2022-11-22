@@ -13,6 +13,8 @@ public class SelectionManager : MonoBehaviour
     public InputActionProperty rTriggerPressed;
     public InputActionProperty rTriggerReleased;
 
+    public Transform modificiationParent;
+
     private StateMachine stateMachine;
     private Transform lHand;
     private Transform rHand;
@@ -20,12 +22,12 @@ public class SelectionManager : MonoBehaviour
     private String currentHand = "";
     
     public Transform controllerHead;
-    public GameObject selectionUI;
-    public OutlineManager outlineManager;
-    public Transform modificationParent;
+    //public GameObject selectionUI;
+    //public Transform modificationParent;
 
     [HideInInspector] public GameObject selectedBuildingBlock = null;
     private SelectionUI selectedBlockUI;
+    private OutlineManager outlineManager;
 
 
     private void Awake()
@@ -33,6 +35,8 @@ public class SelectionManager : MonoBehaviour
         stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
         lHand = GameObject.FindWithTag("LeftController").transform;
         rHand = GameObject.FindWithTag("RightController").transform;
+        outlineManager = gameObject.GetComponent<OutlineManager>();
+        modificiationParent = GameObject.FindWithTag("ModificationParent").transform;
     }
 
     public void OnEnable()
@@ -113,22 +117,22 @@ public class SelectionManager : MonoBehaviour
                 {
                     case "rotate":
                         stateMachine.state = StateMachine.State.EditingRotation;
-                        stateMachine.currentObject = selectedBuildingBlock;
+                        //stateMachine.currentObject = selectedBuildingBlock;
                         outlineManager.SetOutlineColor("rotate");
                         break;
                     case "translate":
                         stateMachine.state = StateMachine.State.EditingTranslation;
-                        stateMachine.currentObject = selectedBuildingBlock;
+                        //stateMachine.currentObject = selectedBuildingBlock;
                         outlineManager.SetOutlineColor("translate");
                         break;
                     case "scaleAll":
                         stateMachine.state = StateMachine.State.EditingScaleAllAxis;
-                        stateMachine.currentObject = selectedBuildingBlock;
+                        //stateMachine.currentObject = selectedBuildingBlock;
                         outlineManager.SetOutlineColor("scaleAll");
                         break;
                     case "scaleIndividual":
                         stateMachine.state = StateMachine.State.EditingScaleIndividualAxis;
-                        stateMachine.currentObject = selectedBuildingBlock;
+                        //stateMachine.currentObject = selectedBuildingBlock;
                         outlineManager.SetOutlineColor("scaleIndividual");
                         break;
                     default:
@@ -142,14 +146,24 @@ public class SelectionManager : MonoBehaviour
                     //
                     // MOVE BLOCK INTO TRANSFORMATION PARENT
                     //
-                    outlineManager.UpdateOutlines();
+                    //outlineManager.UpdateOutlines();
                 }
             }
+
+            if (selectedBuildingBlock != null )
+            {
+                if (stateMachine.state != StateMachine.State.Idle)
+                {
+                    selectedBuildingBlock.transform.parent = modificiationParent;
+                    stateMachine.currentObject = selectedBuildingBlock;
+                }
+                selectedBuildingBlock.GetComponent<BuildingBlock>().DisableSelectionUI();
+            }
             
-            selectedBuildingBlock.GetComponent<BuildingBlock>().DisableSelectionUI();
             selectedBuildingBlock = null;
             selectedBlockUI = null;
         }
+        outlineManager.UpdateOutlines();
     }
     
     private void Update()
@@ -161,28 +175,31 @@ public class SelectionManager : MonoBehaviour
                 currentHand == "left" ? lHand.forward : rHand.forward);
             
             RaycastHit hit;
-            if(Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (selectedBuildingBlock != null)
             {
-                selectedBlockUI.RemoveUISegmentHighlight();
-                switch (hit.collider.tag)
+                if(Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    case "translate":
-                        selectedBlockUI.HighlightUISegment(SelectionUI.Segment.Translate);
-                        break;
-                    case "rotate":
-                        selectedBlockUI.HighlightUISegment(SelectionUI.Segment.Rotate);
-                        break;
-                    case "scaleIndividual":
-                        selectedBlockUI.HighlightUISegment(SelectionUI.Segment.ScaleIndividual);
-                        break;
-                    case "scaleAll":
-                        selectedBlockUI.HighlightUISegment(SelectionUI.Segment.ScaleAll);
-                        break;
-                    default:
-                        break;
-                }
+  
+                    selectedBlockUI.RemoveUISegmentHighlight();
+                    switch (hit.collider.tag)
+                    {
+                        case "translate":
+                            selectedBlockUI.HighlightUISegment(SelectionUI.Segment.Translate);
+                            break;
+                        case "rotate":
+                            selectedBlockUI.HighlightUISegment(SelectionUI.Segment.Rotate);
+                            break;
+                        case "scaleIndividual":
+                            selectedBlockUI.HighlightUISegment(SelectionUI.Segment.ScaleIndividual);
+                            break;
+                        case "scaleAll":
+                            selectedBlockUI.HighlightUISegment(SelectionUI.Segment.ScaleAll);
+                            break;
+                        default:
+                            break;
+                    }
+                } 
             }
-            
         }
     }
 }

@@ -65,9 +65,7 @@ public class Translation : MonoBehaviour
         // clamp distance where the block can be placed so it cannot be placed inifitely far away as lines start to get more parallel
         t1 = Mathf.Clamp(t1, nearPositionClip, farPositionClip);
         t2 = Mathf.Clamp(t2, nearPositionClip, farPositionClip);
-        
-        print(t1);
-        
+
         // endpoints of closest connecting line
         Vector3 endpoint1 = r1 + t1 * e1;
         Vector3 endpoint2 = r2 + t2 * e2;
