@@ -34,6 +34,7 @@ public class Translation : MonoBehaviour
     
     void Update()
     {
+
         if (stateMachine.state == StateMachine.State.EditingTranslation) {
             var newPosition = CalculateBlockPosition();
             
@@ -42,6 +43,7 @@ public class Translation : MonoBehaviour
             {
                 modificationParent.position = newPosition;  
             }
+
         } else if (debug)
         {
             if (!float.IsNaN(CalculateBlockPosition().x) && 
@@ -72,30 +74,23 @@ public class Translation : MonoBehaviour
         float t2 = Vector3.Dot(Vector3.Cross(e1, n), r2 - r1) / Vector3.Dot(n, n);
 
         // clamp distance where the block can be placed so it cannot be placed inifitely far away as lines start to get more parallel
-        t1 = Mathf.Clamp(t1, nearPositionClip, farPositionClip);
-        t2 = Mathf.Clamp(t2, nearPositionClip, farPositionClip);
+        if (t1 > 0)
+        {
+            t1 = Mathf.Clamp(t1, nearPositionClip, farPositionClip);
+        }
+        if (t1 > 0)
+        {
+            t2 = Mathf.Clamp(t2, nearPositionClip, farPositionClip);
+        }
         
         // clip values in case of intersection point being BEHIND player 
-        // also smooth values
-        var velocityT1 = 0.0f;
-        var velocityT2 = 0.0f;
-        
-        if (t1 < 0)
+        if (t1 <= 0 )
         {
             t1 = farPositionClip;
         }
-        else
-        {
-            Mathf.SmoothDamp(oldT1, t1, ref velocityT1, 0.05f);
-        }
-        
-        if (t2 < 0)
+        if (t2 <= 0)
         {
             t2 = farPositionClip;
-        }
-        else
-        {
-            Mathf.SmoothDamp(oldT2, t2, ref velocityT2, 0.05f);
         }
         
         oldT1 = t1;
