@@ -21,10 +21,11 @@ public class Translation : MonoBehaviour
     private float oldT2 = 0f;
 
     private StateMachine stateMachine;
+    private Transform modificationParent;
 
     private void Awake()
     {
-        zoomObject = GameObject.FindWithTag("ModificationParent").transform;
+        modificationParent = GameObject.FindWithTag("ModificationParent").transform;
         leftHand = GameObject.FindWithTag("LeftController").transform;
         rightHand = GameObject.FindWithTag("RightController").transform;
         
@@ -34,8 +35,13 @@ public class Translation : MonoBehaviour
     void Update()
     {
         if (stateMachine.state == StateMachine.State.EditingTranslation) {
-            //Handle translation
-            stateMachine.currentObject.transform.position = CalculateBlockPosition();
+            var newPosition = CalculateBlockPosition();
+            
+            // FIX THIS: !!!
+            if (!ObjectBelowGround(stateMachine.currentObject.transform)) 
+            {
+                modificationParent.position = newPosition;  
+            }
         } else if (debug)
         {
             if (!float.IsNaN(CalculateBlockPosition().x) && 
@@ -102,5 +108,16 @@ public class Translation : MonoBehaviour
         Vector3 midpoint = Vector3.Lerp(endpoint1, endpoint2, 0.5f); // point where the block will be places
 
         return midpoint;
+    }
+
+    private bool ObjectBelowGround(Transform t)
+    {
+        
+        
+        // FIX THIS!!!
+        
+        
+        
+        return false;
     }
 }
