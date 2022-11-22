@@ -1,6 +1,6 @@
 // AUTHOR: MICHAEL HOCHREITER
 
-using UnityEngine;
+/*using UnityEngine;
 
 public class NotifyOnSelection : MonoBehaviour
 {
@@ -24,3 +24,4 @@ public class NotifyOnSelection : MonoBehaviour
         selectionUI.RemoveUISegmentHighlight();
     }
 }
+*/

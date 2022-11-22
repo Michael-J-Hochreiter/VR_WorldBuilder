@@ -18,7 +18,6 @@ public class Translation : MonoBehaviour
     private  Transform rightHand;
     
     private StateMachine stateMachine;
-    private LineRenderer lineRenderer;
 
     private void Awake()
     {
@@ -27,7 +26,6 @@ public class Translation : MonoBehaviour
         rightHand = GameObject.FindWithTag("RightController").transform;
         
         stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
-        lineRenderer = gameObject.GetComponent<LineRenderer>();
     }
     
     void Update()
@@ -35,7 +33,6 @@ public class Translation : MonoBehaviour
         if (stateMachine.state == StateMachine.State.EditingTranslation) {
             //Handle translation
             stateMachine.currentObject.transform.position = CalculateBlockPosition();
-            DrawRays();
         } else if (debug)
         {
             if (!float.IsNaN(CalculateBlockPosition().x) && 
@@ -44,8 +41,6 @@ public class Translation : MonoBehaviour
             {
                 debugBlock.position = CalculateBlockPosition();
             }
-            
-            DrawRays();
         }
     }
 
@@ -80,10 +75,5 @@ public class Translation : MonoBehaviour
         Vector3 midpoint = Vector3.Lerp(endpoint1, endpoint2, 0.5f); // point where the block will be places
         
         return midpoint;
-    }
-
-    private void DrawRays()
-    {
-        //line renderer stuff
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SelectionUI : MonoBehaviour
 {
-    public float distanceToPlayer = 2f;
+    public float distanceToPlayer = 3f;
     public float alphaSelectedSegment = 0.3f;
     public float alphaNotSelectedSegment = 1.0f;
     [HideInInspector] public Transform buildingBlock;

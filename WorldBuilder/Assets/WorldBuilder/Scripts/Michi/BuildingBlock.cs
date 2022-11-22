@@ -5,12 +5,7 @@ using UnityEngine;
 public class BuildingBlock : MonoBehaviour
 {
     public GameObject selectionUIPrefab;
-    public GameObject selectionUI;
-
-    void Start()
-    {
-        //EnableSelectionUI();
-    }
+    [HideInInspector] public GameObject selectionUI;
 
     public void EnableSelectionUI()
     {
