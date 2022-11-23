@@ -34,6 +34,8 @@ public class SelectionManager : MonoBehaviour
     private bool rTriggerPressed = false;
     private bool shifting = false;
 
+    private AudioSource selectionSound;
+
     private void Awake()
     {
         stateMachine = GameObject.FindWithTag("StateMachine").GetComponent<StateMachine>();
@@ -42,6 +44,7 @@ public class SelectionManager : MonoBehaviour
         outlineManager = gameObject.GetComponent<OutlineManager>();
         modificiationParent = GameObject.FindWithTag("ModificationParent").transform;
         spawnBlocks = stateMachine.GetComponent<SpawnBlocks>();
+        selectionSound = GetComponent<AudioSource>();
     }
 
     public void OnEnable()
@@ -136,6 +139,7 @@ public class SelectionManager : MonoBehaviour
                         RemoveOutline();
                         selectedBuildingBlocks.Clear();
                     }
+                    selectionSound.Play();
 
                     var latestHit = hit.transform.gameObject;
                     var outline = latestHit.GetComponent<Outline>();
@@ -181,6 +185,7 @@ public class SelectionManager : MonoBehaviour
                         stateMachine.state = StateMachine.State.EditingRotation;
                         outlineManager.SetOutlineColor("rotate");
                         outlineManager.UpdateOutlines();
+                        selectionSound.Play();
                         break;
                     case "translate":
                         ParentBlocks();
@@ -188,6 +193,7 @@ public class SelectionManager : MonoBehaviour
                         stateMachine.state = StateMachine.State.EditingTranslation;
                         outlineManager.SetOutlineColor("translate");
                         outlineManager.UpdateOutlines();
+                        selectionSound.Play();
                         break;
                     case "scaleAll":
                         ParentBlocks();
@@ -195,6 +201,7 @@ public class SelectionManager : MonoBehaviour
                         stateMachine.state = StateMachine.State.EditingScaleAllAxis;
                         outlineManager.SetOutlineColor("scaleAll");
                         outlineManager.UpdateOutlines();
+                        selectionSound.Play();
                         break;
                     case "scaleIndividual":
                         ParentBlocks();
@@ -202,6 +209,7 @@ public class SelectionManager : MonoBehaviour
                         stateMachine.state = StateMachine.State.EditingScaleIndividualAxis;
                         outlineManager.SetOutlineColor("scaleIndividual");
                         outlineManager.UpdateOutlines();
+                        selectionSound.Play();
                         break;
                     default:
                         if (shifting)

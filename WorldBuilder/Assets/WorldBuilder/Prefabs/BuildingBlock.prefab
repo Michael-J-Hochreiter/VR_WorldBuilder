@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5614384107277689058}
   - component: {fileID: 692655823577968895}
   - component: {fileID: 7728544523019041401}
+  - component: {fileID: 3088514887383237412}
   m_Layer: 0
   m_Name: BuildingBlock
   m_TagString: BuildingBlock
@@ -143,3 +144,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf46751be8553b4e891562e3208da5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3088514887383237412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4360996739772207340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f7b170f084dfe47b0bb81111de51a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scale: {x: 0, y: 0, z: 0}
+  rotation: {x: 0, y: 0, z: 0}

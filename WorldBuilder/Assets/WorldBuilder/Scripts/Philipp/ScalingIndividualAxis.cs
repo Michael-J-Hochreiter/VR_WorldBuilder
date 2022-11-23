@@ -70,6 +70,7 @@ public class ScalingIndividualAxis : MonoBehaviour
             {
                 initialization();
             }
+
             updateVectors();
             determineAxis();
             applyScale();
@@ -136,7 +137,7 @@ public class ScalingIndividualAxis : MonoBehaviour
         {
             currentAxis = "z";
         }
-        
+
         if (initializeAxis)
         {
             previousAxis = currentAxis;
@@ -149,32 +150,39 @@ public class ScalingIndividualAxis : MonoBehaviour
         if (currentAxis == previousAxis)
         {
             //scales along the zoomobject's axis 
+            switch (currentAxis)
             {
-                switch (currentAxis)
-                {
-                    case "x":
-                        scaleChange = new Vector3(xDistanceChange, 0, 0);
-                        zoomObject.transform.localScale += scaleChange * scaleFactor;
-                        break;
-                    case "y":
-                        scaleChange = new Vector3(0, yDistanceChange, 0);
-                        zoomObject.transform.localScale += scaleChange * scaleFactor;
-                        break;
-                    case "z":
-                        scaleChange = new Vector3(0, 0, zDistanceChange);
-                        zoomObject.transform.localScale += scaleChange * scaleFactor;
-                        break;
-                }
+                case "x":
+                    scaleChange = new Vector3(xDistanceChange, 0, 0);
+                    zoomObject.transform.localScale += scaleChange * scaleFactor;
+                    break;
+                case "y":
+                    scaleChange = new Vector3(0, yDistanceChange, 0);
+                    zoomObject.transform.localScale += scaleChange * scaleFactor;
+                    break;
+                case "z":
+                    scaleChange = new Vector3(0, 0, zDistanceChange);
+                    zoomObject.transform.localScale += scaleChange * scaleFactor;
+                    break;
             }
+            storeScale(scaleChange * scaleFactor);
         }
         else
         {
             zoomObject.transform.localScale = initialScale;
         }
+
         //resetting Vector
         xPreviousDistance = xCurrentDistance;
         yPreviousDistance = yCurrentDistance;
         zPreviousDistance = zCurrentDistance;
         previousAxis = currentAxis;
+    }
+    private void storeScale(Vector3 scale)
+    {
+        foreach (Transform child in zoomObject.transform)
+        {
+            child.gameObject.GetComponent<ObjectTransforms>().scale += scale;
+        }
     }
 }

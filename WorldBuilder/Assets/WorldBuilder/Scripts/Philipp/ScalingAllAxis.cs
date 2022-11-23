@@ -60,8 +60,16 @@ public class ScalingAllAxis : MonoBehaviour
         scaleChange = new Vector3(distanceChange, distanceChange, distanceChange);
         //setting new scale with calculated values 
         zoomObject.transform.localScale += scaleChange * 0.7f;
+        storeScale(scaleChange * 0.7f);
 
         //resetting Vector
         previousDistance = currentDistance;
+    }
+    private void storeScale(Vector3 scale)
+    {
+        foreach (Transform child in zoomObject.transform)
+        {
+            child.gameObject.GetComponent<ObjectTransforms>().scale += scale;
+        }
     }
 }
