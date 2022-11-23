@@ -32,7 +32,7 @@ public class SpawnBlocks : MonoBehaviour
             //block.transform.parent = modificationParent.transform;
             stateMachine.primaryPressed = false;
         }
-        if (stateMachine.state != StateMachine.State.Idle && stateMachine.primaryPressed)
+        if (stateMachine.state != StateMachine.State.Idle && stateMachine.secondaryPressed)
         {
             // List<GameObject> objects = new List<GameObject>();
             // foreach (Transform child in modificationParent.transform)
@@ -65,7 +65,7 @@ public class SpawnBlocks : MonoBehaviour
             obj.transform.parent = staticBlockParent.transform;
         }
         stateMachine.state = StateMachine.State.Idle;
-        stateMachine.primaryPressed = false;
+        stateMachine.secondaryPressed = false;
             
         outlineManager.UpdateOutlines();
     }

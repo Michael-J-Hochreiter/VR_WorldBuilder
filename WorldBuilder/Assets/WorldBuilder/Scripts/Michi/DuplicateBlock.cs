@@ -25,9 +25,9 @@ public class DuplicateBlock : MonoBehaviour
         if (stateMachine.primaryPressed && modificationParent.transform.childCount == 1)
         {
             GameObject objectToDuplicate = modificationParent.transform.GetChild(0).gameObject;
-            Vector3 scale = modificationParent.transform.GetChild(0).localScale;
-            Quaternion rotation = modificationParent.transform.GetChild(0).transform.rotation;
-            var block = Instantiate(objectToDuplicate, spawnPoint.transform.position, rotation);
+            Vector3 scale = objectToDuplicate.GetComponent<ObjectTransforms>().scale;
+            Vector3 rotation = objectToDuplicate.GetComponent<ObjectTransforms>().rotation;
+            var block = Instantiate(blockToSpawn, spawnPoint.transform.position, Quaternion.Euler(rotation));
             block.transform.localScale = scale;
             block.transform.parent = staticBlockParent.transform;
             objectToDuplicate.transform.parent = staticBlockParent.transform;

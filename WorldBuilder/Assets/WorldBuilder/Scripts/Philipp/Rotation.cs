@@ -143,19 +143,27 @@ public class Rotation : MonoBehaviour
         //setting new rotation with calculated values
         if (currentAxis == previousAxis)
         {
+            Vector3 rotation;
             //checks on which axis rotation should take place an applies it
             switch (currentAxis)
             {
                 case "x":
-                    zoomObject.transform.Rotate(new Vector3(angleChangeX, 0, 0) * rotationForce);
+                    rotation = new Vector3(angleChangeX, 0, 0);
+                    zoomObject.transform.Rotate(rotation * rotationForce);
                     break;
                 case "y":
-                    zoomObject.transform.Rotate(new Vector3(0, -angleChangeY, 0) * rotationForce);
+                    rotation = new Vector3(0, -angleChangeY, 0);
+                    zoomObject.transform.Rotate(rotation * rotationForce);
                     break;
                 case "z":
-                    zoomObject.transform.Rotate(new Vector3(0, 0, angleChangeZ) * rotationForce);
+                    rotation = new Vector3(0, 0, angleChangeZ);
+                    zoomObject.transform.Rotate(rotation * rotationForce);
+                    break;
+                default:
+                    rotation = Vector3.zero;
                     break;
             }
+            storeRotation(rotation * rotationForce);
         }
         else
         {
@@ -167,5 +175,13 @@ public class Rotation : MonoBehaviour
         previousRotationVectorY = currentRotationVectorY;
         previousRotationVectorZ = currentRotationVectorZ;
         previousAxis = currentAxis;
+    }
+
+    private void storeRotation(Vector3 rot)
+    {
+        foreach (Transform child in zoomObject.transform)
+        {
+            child.gameObject.GetComponent<ObjectTransforms>().rotation += rot;
+        }
     }
 }

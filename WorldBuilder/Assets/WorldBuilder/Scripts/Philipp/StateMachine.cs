@@ -21,6 +21,8 @@ public class StateMachine : MonoBehaviour
 
     [HideInInspector] public bool primaryPressed = false;
     [HideInInspector] public bool primaryReleased = false;
+    [HideInInspector] public bool secondaryPressed = false;
+    [HideInInspector] public bool secondaryReleased = false;
     [HideInInspector] public bool leftTriggerPressed = false;
     [HideInInspector] public bool rightTriggerPressed = false;
     [HideInInspector] public bool leftGrabPressed = false;
@@ -61,22 +63,22 @@ public class StateMachine : MonoBehaviour
         if (rGrabReleaseAction.action != null) rGrabReleaseAction.action.Enable();
         if (rGrabReleaseAction.action != null) rGrabReleaseAction.action.performed += rGrabRelease;
         if (primaryButtonRightHand.action != null) primaryButtonRightHand.action.Enable();
-        if (primaryButtonRightHand.action != null) primaryButtonRightHand.action.performed += buttonPressed;
+        if (primaryButtonRightHand.action != null) primaryButtonRightHand.action.performed += primaryButtonPressed;
         if (secondaryButtonRightHand.action != null) secondaryButtonRightHand.action.Enable();
-        if (secondaryButtonRightHand.action != null) secondaryButtonRightHand.action.performed += buttonPressed;
+        if (secondaryButtonRightHand.action != null) secondaryButtonRightHand.action.performed += secondaryButtonPressed;
         if (primaryButtonLeftHand.action != null) primaryButtonLeftHand.action.Enable();
-        if (primaryButtonLeftHand.action != null) primaryButtonLeftHand.action.performed += buttonPressed;
+        if (primaryButtonLeftHand.action != null) primaryButtonLeftHand.action.performed += primaryButtonPressed;
         if (secondaryButtonLeftHand.action != null) secondaryButtonLeftHand.action.Enable();
-        if (secondaryButtonLeftHand.action != null) secondaryButtonLeftHand.action.performed += buttonPressed;
+        if (secondaryButtonLeftHand.action != null) secondaryButtonLeftHand.action.performed += secondaryButtonPressed;
         
         if (primaryButtonRightHandReleased.action != null) primaryButtonRightHandReleased.action.Enable();
-        if (primaryButtonRightHandReleased.action != null) primaryButtonRightHandReleased.action.performed += buttonReleased;
+        if (primaryButtonRightHandReleased.action != null) primaryButtonRightHandReleased.action.performed += primaryButtonReleased;
         if (secondaryButtonRightHandReleased.action != null) secondaryButtonRightHandReleased.action.Enable();
-        if (secondaryButtonRightHandReleased.action != null) secondaryButtonRightHandReleased.action.performed += buttonReleased;
+        if (secondaryButtonRightHandReleased.action != null) secondaryButtonRightHandReleased.action.performed += secondaryButtonReleased;
         if (primaryButtonLeftHandReleased.action != null) primaryButtonLeftHandReleased.action.Enable();
-        if (primaryButtonLeftHandReleased.action != null) primaryButtonLeftHandReleased.action.performed += buttonReleased;
+        if (primaryButtonLeftHandReleased.action != null) primaryButtonLeftHandReleased.action.performed += primaryButtonReleased;
         if (secondaryButtonLeftHandReleased.action != null) secondaryButtonLeftHandReleased.action.Enable();
-        if (secondaryButtonLeftHandReleased.action != null) secondaryButtonLeftHandReleased.action.performed += buttonReleased;
+        if (secondaryButtonLeftHandReleased.action != null) secondaryButtonLeftHandReleased.action.performed += secondaryButtonReleased;
     }
     
     private void lGrab(InputAction.CallbackContext grab){
@@ -99,14 +101,24 @@ public class StateMachine : MonoBehaviour
         leftGrabReleased = true;
     }
 
-    private void buttonPressed(InputAction.CallbackContext button)
+    private void primaryButtonPressed(InputAction.CallbackContext button)
     {
         primaryPressed = true;
     }
     
-    private void buttonReleased(InputAction.CallbackContext button)
+    private void primaryButtonReleased(InputAction.CallbackContext button)
     {
         primaryPressed = false;
         primaryReleased = true;
+    }
+    private void secondaryButtonPressed(InputAction.CallbackContext button)
+    {
+        secondaryPressed = true;
+    }
+    
+    private void secondaryButtonReleased(InputAction.CallbackContext button)
+    {
+        secondaryPressed = false;
+        secondaryReleased = true;
     }
 }
