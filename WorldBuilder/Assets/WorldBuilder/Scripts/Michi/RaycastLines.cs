@@ -8,6 +8,7 @@ using UnityEngine.XR;
 public class RaycastLines : MonoBehaviour
 {
     public bool debug = false;
+    public bool displayInIdle = false;
     
     private LineRenderer lineRenderer;
     private StateMachine stateMachine;
@@ -37,22 +38,40 @@ public class RaycastLines : MonoBehaviour
         lineRenderer.startColor = new Color(1,1,1, 0.15f);
         lineRenderer.endColor = new Color(1,1,1, 0.15f);
         lineRenderer.loop = false;
+        lineRenderer.positionCount = 0;
     }
 
     void Update()
     {
- 
         if (debug)
         {
             DrawRaycastLine();
         }
         else
         {
-            if (stateMachine.state != StateMachine.State.EditingScaleAllAxis
-                || stateMachine.state != StateMachine.State.EditingScaleIndividualAxis
-                || stateMachine.state != StateMachine.State.EditingRotation)
+            if (displayInIdle)
             {
-                DrawRaycastLine();
+                if (stateMachine.state != StateMachine.State.EditingScaleAllAxis
+                    || stateMachine.state != StateMachine.State.EditingScaleIndividualAxis
+                    || stateMachine.state != StateMachine.State.EditingRotation)
+                {
+                    DrawRaycastLine();
+                }
+                else
+                {
+                    lineRenderer.positionCount = 0;
+                }
+            }
+            else
+            {
+                if (stateMachine.state == StateMachine.State.EditingTranslation)
+                {
+                    DrawRaycastLine();
+                }
+                else
+                {
+                    lineRenderer.positionCount = 0;
+                }
             }
         }
     }

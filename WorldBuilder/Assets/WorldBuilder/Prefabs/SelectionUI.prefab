@@ -234,7 +234,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -261, y: -128}
+  m_AnchoredPosition: {x: -254, y: -130}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2905117384717771025
@@ -521,7 +521,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 333, y: 3}
+  m_AnchoredPosition: {x: 300, y: 3}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &482929451891267537
@@ -794,7 +794,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 306}
+  m_AnchoredPosition: {x: 0, y: 252}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4678601441383948667
@@ -928,7 +928,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 168, y: -281}
+  m_AnchoredPosition: {x: 155, y: -257}
   m_SizeDelta: {x: 300, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2381316737085023087
@@ -1254,8 +1254,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9125736803240558329}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.1947999, y: 1.1947999, z: 1.1947999}
+  m_LocalPosition: {x: 0, y: 0, z: 0.001157}
+  m_LocalScale: {x: 1.0767034, y: 1.0767034, z: 1.0767034}
   m_Children:
   - {fileID: 4995467255736586549}
   - {fileID: 1527177035162525764}
@@ -1274,9 +1274,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da55d7d2c1892434ab77a21b6532d178, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToPlayer: 2
+  distanceToPlayer: 1.3
   alphaSelectedSegment: 1
-  alphaNotSelectedSegment: 0.6
+  alphaNotSelectedSegment: 0.7
   buildingBlock: {fileID: 0}
 --- !u!1001 &3945114395547367020
 PrefabInstance:

@@ -10,6 +10,7 @@ public class DuplicateBlock : MonoBehaviour
     public GameObject blockToSpawn;
     private GameObject staticBlockParent;
     private GameObject modificationParent;
+    private OutlineManager outlineManager;
 
     // Start is called before the first frame update
     void Awake()
@@ -17,6 +18,7 @@ public class DuplicateBlock : MonoBehaviour
         stateMachine = GetComponent<StateMachine>();
         staticBlockParent = GameObject.FindWithTag("StaticBlockParent");
         modificationParent = GameObject.FindWithTag("ModificationParent");
+        outlineManager = GameObject.FindWithTag("Player").GetComponent<OutlineManager>();
     }
 
     // Update is called once per frame
@@ -34,6 +36,9 @@ public class DuplicateBlock : MonoBehaviour
             block.transform.parent = staticBlockParent.transform;
             objectToDuplicate.transform.parent = staticBlockParent.transform;
             stateMachine.primaryPressed = false;
+            
+            outlineManager.UpdateOutlines();
+            stateMachine.state = StateMachine.State.Idle;
         }
     }
 }
