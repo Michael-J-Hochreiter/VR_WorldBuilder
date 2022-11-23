@@ -34,7 +34,8 @@ public class RaycastLines : MonoBehaviour
     {
         lineRenderer.startWidth = 0.02f;
         lineRenderer.endWidth = 0.02f;
-        lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
+        //lineRenderer.material = new Material(Shader.Find("Legacy Shaders/Particles/Alpha Blended Premultiply"));
+        //lineRenderer.material = new Material(Shader.Find("Unlit/Texture"));
         lineRenderer.startColor = new Color(1,1,1, 0.15f);
         lineRenderer.endColor = new Color(1,1,1, 0.15f);
         lineRenderer.loop = false;

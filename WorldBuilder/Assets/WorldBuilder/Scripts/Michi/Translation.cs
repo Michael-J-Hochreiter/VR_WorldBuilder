@@ -3,7 +3,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
-using UnityEditor.XR.Interaction.Toolkit.AR;
 using UnityEngine;
 
 public class Translation : MonoBehaviour
